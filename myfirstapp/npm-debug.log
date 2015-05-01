@@ -21,23 +21,23 @@
 15 verbose addNameRange registry:https://registry.npmjs.org/ios-sim not in flight; fetching
 16 verbose request uri https://registry.npmjs.org/ios-sim
 17 verbose request no auth needed
-18 info attempt registry request try #1 at 11:45:30
-19 verbose request id 244f314575bb9f35
+18 info attempt registry request try #1 at 12:08:23
+19 verbose request id 318981b2f545c6a1
 20 verbose etag "LZQ64UFJSCLICI2NUYOLIGEP"
 21 http request GET https://registry.npmjs.org/ios-sim
 22 http 304 https://registry.npmjs.org/ios-sim
 23 silly get cb [ 304,
-23 silly get   { date: 'Fri, 01 May 2015 09:45:32 GMT',
+23 silly get   { date: 'Fri, 01 May 2015 10:08:24 GMT',
 23 silly get     via: '1.1 varnish',
-23 silly get     'last-modified': 'Fri, 01 May 2015 09:45:32 GMT',
+23 silly get     'last-modified': 'Fri, 01 May 2015 10:08:24 GMT',
 23 silly get     'cache-control': 'max-age=60',
 23 silly get     etag: '"LZQ64UFJSCLICI2NUYOLIGEP"',
-23 silly get     age: '0',
+23 silly get     age: '50',
 23 silly get     connection: 'keep-alive',
-23 silly get     'x-served-by': 'cache-ams4126-AMS',
+23 silly get     'x-served-by': 'cache-ams4147-AMS',
 23 silly get     'x-cache': 'HIT',
 23 silly get     'x-cache-hits': '1',
-23 silly get     'x-timer': 'S1430473532.878593,VS0,VE94',
+23 silly get     'x-timer': 'S1430474904.688382,VS0,VE0',
 23 silly get     vary: 'Accept' } ]
 24 verbose etag https://registry.npmjs.org/ios-sim from cache
 25 verbose get saving ios-sim to /Users/Monica/.npm/registry.npmjs.org/ios-sim/.cache.json
