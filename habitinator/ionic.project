@@ -1,0 +1,12 @@
+{
+  "name": "habitinator",
+  "app_id": "e21bf180",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}
