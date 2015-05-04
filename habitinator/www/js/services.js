@@ -1,5 +1,7 @@
 angular.module('starter.services', [])
 
+.value('version', '0.0.1')
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 
@@ -49,5 +51,56 @@ angular.module('starter.services', [])
   };
 })
 
-.factory('Location', [])
+.factory('LocationService', ['$q', function($q){
 
+    var latLong = null;
+    
+    var getLatLong = function(refresh) {
+        
+        var deferred = $q.defer();
+        
+        if( latLong === null || refresh ) {
+        
+            console.log('Calculating latitude and longitude');
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                latLong =  { 'lat' : pos.coords.latitude, 'long' : pos.coords.longitude } 
+                console.log(latLong);
+                
+                deferred.resolve(latLong);
+            }, function(error) {
+                console.log('Got error!', error);
+                latLong = null
+                
+                deferred.reject('Failed to Get Latitude and Longitude')
+            });
+            
+        }  else {
+            deferred.resolve(latLong);
+        }
+        
+        return deferred.promise;
+
+    };      
+    
+    return {
+        getLatLong : getLatLong
+    }
+}])
+
+.service('serviceName', function($http, $q){
+    
+    var deferred = $q.defer();
+
+    $http.get('').then(function(data){
+
+        deferred.resolve(data);
+
+    })
+
+    this.get = function() {
+
+        return deffered.promise;
+
+    }
+
+})
