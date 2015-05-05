@@ -1,75 +1,95 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $cordovaGeolocation, $ionicPlatform, LocationService) {
+.controller('AppCtrl', function ($scope, LocationService, $state, AuthService, AUTH_EVENTS, $ionicPopup) {
 
-	$ionicPlatform.ready(function() {
+	// This will log the latitude and longitude
+	LocationService.getLatLong();
 
-		// -------------------------------------------
-		// Geolocation plugin
-	 // 	var posOptions = {timeout: 10000, enableHighAccuracy: false};
+	$scope.username = AuthService.username();
 
-		// $cordovaGeolocation
-	 //    .getCurrentPosition(posOptions)
-	 //    .then(function (position) {
-	 //      	var lat  = position.coords.latitude
-	 //      	var long = position.coords.longitude
+	$scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
+		var alertPopup = $ionicPopup.alert({
+			title: 'Unauthorized',
+			template: 'You are not allowed to access this resource'
+		})
+	})
 
-	 //      	// This console logs a geolocation
-	 //      	console.log('Latitude: ', lat, ' Longitude: ', long)
-	 //    }, function(err) {
-	 //      	// error
-	 //    });
+	$scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
 
+		AuthService.logout();
+		$state.go('login');
 
-	 //  	var watchOptions = {
-	 //    	frequency : 1000,
-	 //    	timeout : 3000,
-	 //    	enableHighAccuracy: false // may cause errors if true
-	 //  	};
+		var alertPopup = $ionicPopup.alert({
+			title: 'Session lost!',
+			template: 'Sorry, you have to login again'
+		})
+	})
 
-	 //  	var watch = $cordovaGeolocation.watchPosition(watchOptions);
-	 //  	watch.then(
-	 // 	null,
-		// function(err) {
-	 //  		// error
-		// },
-		// function(position) {
-	 //  		var lat  = position.coords.latitude
-	 //  		var long = position.coords.longitude
-		// });
+	$scope.setCurrentUsername = function(name) {
 
-		// watch.clearWatch();
+		$scope.username = name;
 
-
-		LocationService.getLatLong();
-
-	}, false);	
-})
-
-.controller('DashCtrl', function($scope) {
-
+	}
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('LoginCtrl', function ($scope, $state, $ionicPopup, AuthService){
 
-  	$scope.chats = Chats.all();
-  	$scope.remove = function(chat) {
-    	Chats.remove(chat);
-  	}
+	$scope.data = {
+
+	}
+
+	$scope.login = function(data) {
+
+		AuthService.login(data.username, data.password)
+		.then(function(authenticated){
+
+			$state.go('main.dash', {}, {reload: true});
+			$scope.setCurrentUsername(data.username);
+
+		}, function(err) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Login failed',
+				template: 'Please check your credentials'
+			})
+		})
+	}
+
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+.controller('DashCtrl', function ($scope, $state, $ionicPopup, AuthService, $http){
+	
+	$scope.logout = function() {
 
-  	$scope.chat = Chats.get($stateParams.chatId);
+		AuthService.logout();
+    	$state.go('login');
+
+	}
+
+	$scope.performValidRequest = function() {
+		$http.get('http://localhost:8100/valid').then(
+      	function (result) {
+        	$scope.response = result;
+      	});
+	}
+
+	$scope.performUnauthorizedRequest = function() {
+		$http.get('http://localhost:8100/notauthorized')
+		.then(function (result) {
+        	// No result here..
+      	}, function(err) {
+        	$scope.response = err;
+      	});
+	}
+
+	$scope.performInvalidRequest = function() {
+		$http.get('http://localhost:8100/notauthenticated')
+		.then(function(result){
+			
+		}, function(err) {
+			$scope.response = err;
+		})
+	}
 
 })
-
-.controller('AccountCtrl', function($scope) {
-
-  	$scope.settings = {
-    	enableFriends: true
-  	};
-
-});
