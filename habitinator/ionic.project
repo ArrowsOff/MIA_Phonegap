@@ -2,10 +2,14 @@
   "name": "habitinator",
   "app_id": "e21bf180",
   "gulpStartupTasks": [
-    "sass",
+    "styles",
+    "scripts",
+    "html",
+    "images",
     "watch"
   ],
   "watchPatterns": [
+    "app/js/**/*",
     "www/**/*",
     "!www/lib/**/*"
   ]
