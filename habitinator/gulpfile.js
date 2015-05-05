@@ -7,8 +7,8 @@ var $ 		= require('gulp-load-plugins')({ camelize: true });
 var project = {
 
     sass: {
-    	src: 'app/scss/ionic.app.scss',//project.src + 'scss/ionic.app.scss',
-    	watch: 'app/scss/**/*.scss', //project.src + 'scss/**/*.scss',
+    	src: 'app/scss/base.scss',
+    	watch: 'app/scss/**/*.scss', 
     	name: 'styles.css',
     	dest: 'www/'
     },
@@ -16,7 +16,11 @@ var project = {
     	src:  'app/js/**/*.js',
     	watch: 'app/js/**/*.js',
     	name: 'app.js',
-    	dest: 'www/'
+    	dest: 'www/',
+    	libraries: {
+    		files: ['app/lib/ionic/js/ionic.bundle.js', 'app/lib/ngCordova/dist/ng-cordova.js', 'app/lib/angular-mocks/angular-mocks.js'],
+    		dest: 'www/js'
+    	}
     },
     templates: {
     	src: 'app/templates/**/*.html',
@@ -31,6 +35,10 @@ var project = {
     	src: 'app/img/**/*(*.png|*.jpg|*.jpeg|*.gif|*.svg)',
     	dest: 'www/img/',
     	watch: 'app/img/**/*(*.png|*.jpg|*.jpeg|*.gif|*.svg)'
+    },
+    fonts: {
+    	src: ['app/lib/ionic/fonts/**'],
+    	dest: 'www/fonts/'
     }
 
 };
@@ -50,9 +58,14 @@ gulp.task('styles', function(done) {
 });
 
 gulp.task('scripts-lint', function() {
-    return gulp.src(project.scripts.src)
+    gulp.src(project.scripts.src)
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('scripts-copy', function() {
+	gulp.src(project.scripts.libraries.files)
+		.pipe(gulp.dest(project.scripts.libraries.dest));
 })
 
 gulp.task('scripts', ['scripts-lint'], function() {
@@ -73,6 +86,11 @@ gulp.task('html', function(){
 gulp.task('images', function() {
 	return gulp.src(project.images.src)
 		.pipe(gulp.dest(project.images.dest));
+});
+
+gulp.task('fonts', function(){
+	return gulp.src(project.fonts.src)
+		.pipe(gulp.dest(project.fonts.dest));
 });
 
 gulp.task('watch', function() {

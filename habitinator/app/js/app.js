@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', [
+angular.module('starter', [
     'ionic', 
     
     'starter.controllers.AppCtrl',
@@ -20,10 +20,11 @@ var app = angular.module('starter', [
 
     'starter.directives.version',
 
-    'ngCordova', 
-    'ngMockE2E']);
+    'ngCordova',
+    'ngMockE2E'
+])
 
-app.run(function($ionicPlatform) {
+.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -36,9 +37,9 @@ app.run(function($ionicPlatform) {
         }
 
     });
-});
+})
 
-app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($stateProvider, $urlRouterProvider, USER_ROLES) {
     $stateProvider
         .state('login', {
             url: '/login',
@@ -84,9 +85,9 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function ($sta
         });
 
     $urlRouterProvider.otherwise('/main/dash');
-}]);
+}])
 
-app.run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+.run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', function ($rootScope, $state, AuthService, AUTH_EVENTS) {
     $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
 
         if ('data' in next && 'authorizedRoles' in next.data) {
@@ -106,9 +107,9 @@ app.run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', function ($rootSc
         }
 
     });
-}]);
+}])
 
-app.run(['$httpBackend', function ($httpBackend){
+.run(['$httpBackend', function ($httpBackend){
     $httpBackend.whenGET('http://localhost:8100/valid')
         .respond({message: 'this is a valid response'});
 
