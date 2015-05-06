@@ -1,8 +1,15 @@
 angular.module('starter.controllers.AppCtrl', [])
-	.controller('AppCtrl', ['$scope', '$state', '$ionicPopup', 'LocationService', 'AuthService', 'AUTH_EVENTS', function ($scope, $state, $ionicPopup, LocationService, AuthService, AUTH_EVENTS) {
+	.controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'LocationService', 'AuthService', 'AUTH_EVENTS', 
+	function ($scope, $state, $ionicPopup, $ionicSideMenuDelegate, LocationService, AuthService, AUTH_EVENTS) {
 
 		// This will return a location object with latitude and longitude
-		LocationService.getPosition();
+		var location = LocationService.getPosition();
+
+		location.then(function(result){
+			console.log('lat:', result.lat, 'long:', result.long);
+		}, function(err){
+			console.log(err);
+		});
 
 		$scope.username = AuthService.username();
 
@@ -25,9 +32,7 @@ angular.module('starter.controllers.AppCtrl', [])
 		});
 
 		$scope.setCurrentUsername = function(name) {
-
 			$scope.username = name;
-
 		};
 
 		$scope.logout = function() {
@@ -35,8 +40,12 @@ angular.module('starter.controllers.AppCtrl', [])
 	    	$state.go('login');
 		};
 
-		$scope.isAuthenticated = function() {
+		$scope.isLoggedIn = function() {
 			return AuthService.isAuthenticated();
 		};
-		
+
+		$scope.showMenu = function () {
+			$ionicSideMenuDelegate.toggleRight();
+  		};
+
 	}]);

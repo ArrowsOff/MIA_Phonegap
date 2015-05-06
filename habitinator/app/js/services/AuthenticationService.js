@@ -1,12 +1,14 @@
 angular.module('starter.services.AuthenticationService', [])
+    .service('AuthService', function ($q, $http, $cordovaOauth, USER_ROLES) {
 
-    .service('AuthService', function ($q, $http, USER_ROLES) {
+        var AuthService = this;
 
         var LOCAL_TOKEN_KEY = 'yourTokenKey';
         var username = '';
         var isAuthenticated = false;
         var role = '';
         var authToken;
+        var facebook;
      
         function loadUserCredentials() {
             var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
@@ -31,6 +33,8 @@ angular.module('starter.services.AuthenticationService', [])
             }
             if (username == 'user') {
                 role = USER_ROLES.public;
+            } else {
+                role = USER_ROLES.public;
             }
      
             // Set the token as header for your requests!
@@ -44,41 +48,97 @@ angular.module('starter.services.AuthenticationService', [])
             $http.defaults.headers.common['X-Auth-Token'] = undefined;
             window.localStorage.removeItem(LOCAL_TOKEN_KEY);
         }
-     
-        var login = function(name, pw) {
-            return $q(function(resolve, reject) {
+
+        AuthService.login = function(oauth, name, pw) {
+            var defer = $q.defer();
+
+            if(oauth) {
+                console.log('Facebook login');
+
+                $cordovaOauth.facebook('902314686547924', ['email', 'id']).then(function(result){
+
+                    storeUserCredentials(result.access_token);
+                    facebook = true;
+                    defer.resolve('Login success');
+
+                }, function(err) {
+                    defer.reject('Login Failed');
+                });
+            } else {
+                console.log('Regular login');
+
                 if ((name == 'admin' && pw == '1') || (name == 'user' && pw == '1')) {
+
                     // Make a request and receive your auth token from your server
                     storeUserCredentials(name + '.yourServerToken');
-                    resolve('Login success.');
+                    facebook = false;
+                    defer.resolve('Login success.');
+
                 } else {
-                    reject('Login Failed.');
+                    defer.reject('Login Failed.');
                 }
-            });
+            }
+
+            return defer.promise;
+        };
+
+        AuthService.getProfile = function() {
+            var defer = $q.defer();
+
+            if(facebook) {
+                $http.get('https://graph.facebook.com/v2.2/me', { 
+                        params: { 
+                            access_token: window.localStorage.getItem(LOCAL_TOKEN_KEY),
+                            fields: "id,name,gender,location,website,picture,relationship_status", 
+                            format: "json" 
+                        }
+                }).success(function(response) {
+
+                    defer.resolve(response);
+
+                }).error(function(err, status){
+
+                    console.log("Something went wrong", err, status);
+                    defer.reject(err);
+
+                });
+            } else {
+                alert('Not logged in with Facebook');
+            }
+
+            return defer.promise;
+        };
+
+        AuthService.isFacebook = function() {
+            return facebook;
         };
      
-        var logout = function() {
+        AuthService.logout = function() {
             destroyUserCredentials();
         };
      
-        var isAuthorized = function(authorizedRoles) {
+        AuthService.isAuthorized = function(authorizedRoles) {
             if (!angular.isArray(authorizedRoles)) {
                 authorizedRoles = [authorizedRoles];
             }
             return (isAuthenticated && authorizedRoles.indexOf(role) !== -1);
         };
+
+        AuthService.isAuthenticated = function() {
+            return isAuthenticated;
+        };
+
+        AuthService.username = function() {
+            return username;
+        };
+
+        AuthService.role = function() {
+            return role;
+        };
      
         loadUserCredentials();
      
-        return {
-            login: login,
-            logout: logout,
-            isAuthorized: isAuthorized,
-            isAuthenticated: function() {return isAuthenticated;},
-            username: function() {return username;},
-            role: function() {return role;}
-        };
-
+        return AuthService;
     })
 
     .factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {

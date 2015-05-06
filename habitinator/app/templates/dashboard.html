@@ -1,9 +1,9 @@
 <ion-view view-title="Dashboard" name="dashboard-view">
  
-  	<ion-content class="padding">
+  	<ion-content class="padding" >
     	<div class="row">
     		<div class="col text-center">
-      			<h3 class="title">Welcome {{username}}!</h3>
+      			<h3 class="title">Welcome {{username}} {{profileData.name}}!</h3>
       			This could be your Dashboard.
       			<br><br><br>
 
@@ -25,7 +25,13 @@
 
       			{{response}}
 
-            <br><br>
+            <br><br>  
+
+            <div ng-init="init()">
+              
+              
+
+            </div>
             
     		</div>
     	</div>

@@ -1,0 +1,21 @@
+<ion-view view-title="Profile" name="profile-view">
+	<ion-content class="padding" ng-init="getProfile()">
+		<div class="list card">
+          <div class="item item-avatar">
+              <img ng-src="{{profileData.picture.data.url}}" ng-if="profileData.picture.data.url">
+              <h2 ng-if="profileData.name">{{profileData.name}}</h2>
+              <p ng-if="profileData.id">{{profileData.id}}</p>
+          </div>
+          <a href="#" class="item item-icon-left" ng-if="profileData.website">
+              <i class="icon ion-earth"></i>
+              {{profileData.website}}
+          </a>
+          <a href="#" class="item item-icon-left" ng-if="profileData.location.name">
+              <i class="icon ion-home"></i>
+              {{profileData.location.name}}
+          </a>
+
+          <!-- {{profileData}} -->
+      </div>
+	</ion-content>
+</ion-view>

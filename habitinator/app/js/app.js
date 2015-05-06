@@ -11,6 +11,7 @@ angular.module('starter', [
     'starter.controllers.AppCtrl',
     'starter.controllers.LoginCtrl',
     'starter.controllers.DashCtrl', 
+    'starter.controllers.ProfileCtrl', 
 
     'starter.constants', 
 
@@ -20,8 +21,8 @@ angular.module('starter', [
 
     'starter.directives.version',
 
-    'ngCordova',
-    'ngMockE2E'
+    'ngCordova'
+    //'ngMockE2E',
 ])
 
 .run(function($ionicPlatform) {
@@ -82,6 +83,12 @@ angular.module('starter', [
             data: {
                 authorizedRoles: [USER_ROLES.admin]
             }
+        })
+
+        .state('profile', {
+            url: '/profile',
+            templateUrl: 'templates/profile.html',
+            controller: 'ProfileCtrl'
         });
 
     $urlRouterProvider.otherwise('/main/dash');
@@ -107,17 +114,17 @@ angular.module('starter', [
         }
 
     });
-}])
-
-.run(['$httpBackend', function ($httpBackend){
-    $httpBackend.whenGET('http://localhost:8100/valid')
-        .respond({message: 'this is a valid response'});
-
-    $httpBackend.whenGET('http://localhost:8100/notauthenticated')
-    .respond(401, {message: 'Not Authenticated'});
-
-    $httpBackend.whenGET('http://localhost:8100/notauthorized')
-    .respond(403, {message: 'Not Authorized'});
-
-    $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
 }]);
+
+// .run(['$httpBackend', function ($httpBackend){
+//     $httpBackend.whenGET('http://localhost:8100/valid')
+//         .respond({message: 'this is a valid response'});
+
+//     $httpBackend.whenGET('http://localhost:8100/notauthenticated')
+//     .respond(401, {message: 'Not Authenticated'});
+
+//     $httpBackend.whenGET('http://localhost:8100/notauthorized')
+//     .respond(403, {message: 'Not Authorized'});
+
+//     $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
+// }]);

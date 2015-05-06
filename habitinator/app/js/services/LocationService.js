@@ -13,9 +13,10 @@ angular.module('starter.services.LocationService', [])
 	                var lat = position.coords.latitude;
 	                var long = position.coords.latitude;
 
-	                    location = { 'lat' : lat, 'long' : long };
+	                location = { 'lat' : lat, 'long' : long };
 
-	                    console.log(lat, long);
+	                deferred.resolve(location);
+
 	            }, function(error) {
 	                console.log('Got error!', error);
 	                location = null;
@@ -23,7 +24,7 @@ angular.module('starter.services.LocationService', [])
 	                deferred.reject('Failed to get Latitude and Longitude');
 	            });
 	            
-	        }  else {
+	        } else {
 	            deferred.resolve(location);
 	        }
 	        

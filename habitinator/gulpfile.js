@@ -18,7 +18,10 @@ var project = {
     	name: 'app.js',
     	dest: 'www/',
     	libraries: {
-    		files: ['app/lib/ionic/js/ionic.bundle.js', 'app/lib/ngCordova/dist/ng-cordova.js', 'app/lib/angular-mocks/angular-mocks.js'],
+    		files: ['app/lib/ionic/js/ionic.bundle.js', 
+                    'app/lib/ngCordova/dist/ng-cordova.js', 
+                    'app/lib/angular-mocks/angular-mocks.js',
+                    'app/lib/ngstorage/ngStorage.js'],
     		dest: 'www/js'
     	}
     },
@@ -43,7 +46,7 @@ var project = {
 
 };
 
-gulp.task('default', ['styles', 'scripts']);
+gulp.task('default', ['styles', 'scripts', 'scripts-copy' ,'html', 'fonts', 'images']);
 
 gulp.task('styles', function(done) {
     return gulp.src(project.sass.src)
@@ -64,7 +67,8 @@ gulp.task('scripts-lint', function() {
 });
 
 gulp.task('scripts-copy', function() {
-	gulp.src(project.scripts.libraries.files)
+	return gulp.src(project.scripts.libraries.files)
+		.pipe($.uglify())
 		.pipe(gulp.dest(project.scripts.libraries.dest));
 })
 
@@ -77,9 +81,21 @@ gulp.task('scripts', ['scripts-lint'], function() {
 
 gulp.task('html', function(){
 	gulp.src(project.templates.index.src)
+		.pipe($.changed(project.templates.index.dest))
+		// .pipe($.minifyHtml({
+		// 	empty: true,
+		// 	conditionals: true,
+  //   		spare:true
+		// }))
 		.pipe(gulp.dest(project.templates.index.dest));
 
 	return gulp.src(project.templates.src)
+		.pipe($.changed(project.templates.dest))
+		// .pipe($.minifyHtml({
+		// 	empty: true,
+		// 	conditionals: true,
+  //   		spare:true
+		// }))
 		.pipe(gulp.dest(project.templates.dest));
 });
 

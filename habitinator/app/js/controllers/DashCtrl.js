@@ -1,5 +1,6 @@
 angular.module('starter.controllers.DashCtrl', [])
-	.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', '$cordovaCamera', '$cordovaFile', '$cordovaGeolocation', 'AuthService', function ($scope, $state, $http, $ionicPopup, $cordovaCamera, $cordovaFile, $cordovaGeolocation, AuthService){
+	.controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', '$cordovaCamera', '$cordovaFile', '$cordovaGeolocation', 'AuthService', 
+	function ($scope, $state, $http, $ionicPopup, $cordovaCamera, $cordovaFile, $cordovaGeolocation, AuthService){
 		
 		// Authentication
 		// ---------------------------------------------
@@ -102,5 +103,22 @@ angular.module('starter.controllers.DashCtrl', [])
 			var trueOrigin = cordova.file.dataDirectory + name;
 
 			return trueOrigin;
+		};
+
+
+		$scope.init = function() {
+
+			// AuthService.getProfile()
+			// .then(function(result){
+
+			// 	$scope.profileData = result;
+			// 	console.log(result);
+
+			// }, function(err) {
+
+			// 	alert('Error: ', err);
+
+			// });
+
 		};
 	}]);
