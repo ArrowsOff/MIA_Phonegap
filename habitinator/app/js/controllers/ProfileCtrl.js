@@ -1,17 +1,14 @@
-angular.module('starter.controllers.ProfileCtrl', [])
-	.controller('ProfileCtrl', ['$scope', 'AuthService', function ($scope, AuthService){
+app.controller('ProfileCtrl', function ($scope){
+	// $scope.getProfile = function() {
+	// 	AuthService.getProfile()
+	// 	.then(function(result){
 
-		$scope.getProfile = function() {
-			AuthService.getProfile()
-			.then(function(result){
+	// 		$scope.profileData = result;
 
-				$scope.profileData = result;
+	// 	}, function(err) {
 
-			}, function(err) {
+	// 		console.log('Error: ', err);
 
-				console.log('Error: ', err);
-
-			});	
-		};
-
-	}]);	
+	// 	});	
+	// };
+});	

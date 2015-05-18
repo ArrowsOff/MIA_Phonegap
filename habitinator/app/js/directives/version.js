@@ -1,6 +1,5 @@
-angular.module('starter.directives.version', [])
-	.directive('appVersion', ['version', function(version) {
-		return function(scope, elm, attrs) {
-			elm.text(version);
-		};
-	}]);
+app.directive('appVersion', function(version) {
+	return function(scope, elm, attrs) {
+		elm.text(version);
+	};
+});

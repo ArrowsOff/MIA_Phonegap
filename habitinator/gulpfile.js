@@ -18,10 +18,8 @@ var project = {
     	name: 'app.js',
     	dest: 'www/',
     	libraries: {
-    		files: ['app/lib/ionic/js/ionic.bundle.js', 
-                    'app/lib/ngCordova/dist/ng-cordova.js', 
-                    'app/lib/angular-mocks/angular-mocks.js',
-                    'app/lib/ngstorage/ngStorage.js'],
+    		files: ['app/lib/ionic/release/js/ionic.bundle.js', 
+                    'app/lib/ngCordova/dist/ng-cordova.js'],
     		dest: 'www/js'
     	}
     },
@@ -40,7 +38,7 @@ var project = {
     	watch: 'app/img/**/*(*.png|*.jpg|*.jpeg|*.gif|*.svg)'
     },
     fonts: {
-    	src: ['app/lib/ionic/fonts/**'],
+    	src: ['app/lib/ionic/release/fonts/**'],
     	dest: 'www/fonts/'
     }
 

@@ -1,7 +1,7 @@
 {
   "name": "habitinator",
   "version": "1.0.0",
-  "description": "habitinator:: An Ionic project",
+  "description": "habitinator2: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-changed": "^1.2.1",
@@ -21,12 +21,9 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "org.apache.cordova.device",
     "org.apache.cordova.console",
-    "org.apache.cordova.geolocation",
+    "org.apache.cordova.device",
     "com.ionic.keyboard"
   ],
-  "cordovaPlatforms": [
-    "android"
-  ]
+  "cordovaPlatforms": []
 }

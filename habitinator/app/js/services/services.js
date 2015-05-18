@@ -1,3 +1,1 @@
-angular.module('starter.services', [])
-
-    .value('version', '0.0.1');
+app.value('version', '0.0.1');
