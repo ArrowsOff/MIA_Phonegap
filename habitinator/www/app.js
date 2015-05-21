@@ -82,6 +82,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
+app.directive('appVersion', function(version) {
+	return function(scope, elm, attrs) {
+		elm.text(version);
+	};
+});
 app.controller('AppCtrl', function ($scope, $state, $ionicPopup, $ionicSideMenuDelegate, LocationService, AuthService) {
 
 	// This will return a location object with latitude and longitude
@@ -183,11 +188,6 @@ app.controller('DashCtrl', function ($scope, $ionicModal, HabitService){
 	}).then(function(modal) {
 	    $scope.modal = modal;
 	});
-
-	$scope.closeModal = function() {
-	    $scope.modal.hide();
-  	};
-
 
   	HabitService.set($scope.habits);
 });
@@ -458,8 +458,3 @@ app.factory('LocationService', function ($q){
     };
 });
 app.value('version', '0.0.1');
-app.directive('appVersion', function(version) {
-	return function(scope, elm, attrs) {
-		elm.text(version);
-	};
-});

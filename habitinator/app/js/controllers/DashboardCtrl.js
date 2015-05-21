@@ -51,10 +51,5 @@ app.controller('DashCtrl', function ($scope, $ionicModal, HabitService){
 	    $scope.modal = modal;
 	});
 
-	$scope.closeModal = function() {
-	    $scope.modal.hide();
-  	};
-
-
   	HabitService.set($scope.habits);
 });
