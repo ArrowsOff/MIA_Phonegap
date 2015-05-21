@@ -48,35 +48,18 @@ app.service('AuthService', function ($q, $http, $cordovaOauth) {
         window.localStorage.removeItem(LOCAL_TOKEN_KEY);
     }
 
-    AuthService.login = function(oauth, name, pw) {
+    AuthService.login = function() {
         var defer = $q.defer();
 
-        if(oauth) {
-            console.log('Facebook login');
+        $cordovaOauth.facebook('902314686547924', ['email', 'id']).then(function(result){
 
-            $cordovaOauth.facebook('902314686547924', ['email', 'id']).then(function(result){
+            storeUserCredentials(result.access_token);
+            facebook = true;
+            defer.resolve('Login success');
 
-                storeUserCredentials(result.access_token);
-                facebook = true;
-                defer.resolve('Login success');
-
-            }, function(err) {
-                defer.reject('Login Failed');
-            });
-        } else {
-            console.log('Regular login');
-
-            if ((name == 'admin' && pw == '1') || (name == 'user' && pw == '1')) {
-
-                // Make a request and receive your auth token from your server
-                storeUserCredentials(name + '.yourServerToken');
-                facebook = false;
-                defer.resolve('Login success.');
-
-            } else {
-                defer.reject('Login Failed.');
-            }
-        }
+        }, function(err) {
+            defer.reject('Login Failed');
+        });
 
         return defer.promise;
     };

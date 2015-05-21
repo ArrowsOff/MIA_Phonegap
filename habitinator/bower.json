@@ -5,6 +5,7 @@
     "ionic": "driftyco/ionic"
   },
   "dependencies": {
-    "ngCordova": "~0.1.15-alpha"
+    "ngCordova": "~0.1.15-alpha",
+    "ng-lodash": "~0.2.3"
   }
 }

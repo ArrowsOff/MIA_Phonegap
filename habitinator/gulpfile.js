@@ -19,7 +19,8 @@ var project = {
     	dest: 'www/',
     	libraries: {
     		files: ['app/lib/ionic/release/js/ionic.bundle.js', 
-                    'app/lib/ngCordova/dist/ng-cordova.js'],
+                    'app/lib/ngCordova/dist/ng-cordova.js',
+                    'app/lib/ng-lodash/build/ng-lodash.js'],
     		dest: 'www/js'
     	}
     },

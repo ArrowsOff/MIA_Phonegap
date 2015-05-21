@@ -6,3 +6,5 @@ platforms/
 plugins/
 app/lib/
 www/**/*
+resources/android
+resources/ios

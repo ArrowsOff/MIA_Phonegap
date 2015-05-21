@@ -1,4 +1,4 @@
-var app = angular.module('starter', ['ionic']);
+var app = angular.module('starter', ['ionic', 'ngLodash']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -34,6 +34,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
         controller: 'DashCtrl'
       }
     }
+  })
+
+  .state('tab.habit', {
+    url: '/dashboard/:id',
+    views: {
+        'tab-dash': {
+          templateUrl: 'templates/habit.html',
+          controller: 'HabitCtrl'
+        }
+      }
+    
   })
 
   .state('tab.profile', {
@@ -120,9 +131,72 @@ app.controller('AppCtrl', function ($scope, $state, $ionicPopup, $ionicSideMenuD
 		};
 
 });
-app.controller('DashCtrl', function ($scope){
-		
+app.controller('DashCtrl', function ($scope, $ionicModal, HabitService){
+	$scope.habits = {
+		0: {
+			id: '0',
+			name: "habit 1",
+			date: 'Start date',
+			remembering: {
+				mon: false,
+				tue: false,
+				wed: true,
+				thu: false,
+				fri: false,
+				sat: true,
+				sun: false
+			},
+			rememberTime: '18:00',
+			type: ''
+		},
+		1: {
+			id: '1',
+			name: "habit 2",
+			date: 'Start date',
+			remembering: {
+				mon: true,
+				tue: false,
+				wed: true,
+				thu: false,
+				fri: false,
+				sat: true,
+				sun: false
+			},
+			rememberTime: '17:00',
+			type: ''
+		}
+	};
+
+	$scope.openModal = function() {
+	    $scope.modal.show();
+	};
+
+	$scope.add = function(habit) {
+		HabitService.add(habit);
+
+		$scope.closeModal();
+	};
+
+	$ionicModal.fromTemplateUrl('templates/my-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	}).then(function(modal) {
+	    $scope.modal = modal;
+	});
+
+	$scope.closeModal = function() {
+	    $scope.modal.hide();
+  	};
+
+
+  	HabitService.set($scope.habits);
 });
+
+app.controller('HabitCtrl', function ($scope, $stateParams, HabitService){
+	
+	$scope.habit = HabitService.getHabit($stateParams.id);
+
+});	
 
 app.controller('LoginCtrl', function ($scope, $state, $ionicPopup, $cordovaOauth, $location, AuthService){
 	$scope.data = {	};
@@ -224,35 +298,18 @@ app.service('AuthService', function ($q, $http, $cordovaOauth) {
         window.localStorage.removeItem(LOCAL_TOKEN_KEY);
     }
 
-    AuthService.login = function(oauth, name, pw) {
+    AuthService.login = function() {
         var defer = $q.defer();
 
-        if(oauth) {
-            console.log('Facebook login');
+        $cordovaOauth.facebook('902314686547924', ['email', 'id']).then(function(result){
 
-            $cordovaOauth.facebook('902314686547924', ['email', 'id']).then(function(result){
+            storeUserCredentials(result.access_token);
+            facebook = true;
+            defer.resolve('Login success');
 
-                storeUserCredentials(result.access_token);
-                facebook = true;
-                defer.resolve('Login success');
-
-            }, function(err) {
-                defer.reject('Login Failed');
-            });
-        } else {
-            console.log('Regular login');
-
-            if ((name == 'admin' && pw == '1') || (name == 'user' && pw == '1')) {
-
-                // Make a request and receive your auth token from your server
-                storeUserCredentials(name + '.yourServerToken');
-                facebook = false;
-                defer.resolve('Login success.');
-
-            } else {
-                defer.reject('Login Failed.');
-            }
-        }
+        }, function(err) {
+            defer.reject('Login Failed');
+        });
 
         return defer.promise;
     };
@@ -331,6 +388,38 @@ app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
 // app.config(function ($httpProvider) {
 //     $httpProvider.interceptors.push('AuthInterceptor');
 // });
+app.service('HabitService', function(lodash) {
+
+	var HabitService = this;
+
+	var habits = {};
+
+	HabitService.set = function(data){
+		habits = data;
+	};
+
+	HabitService.get = function() {
+		return habits;
+	};
+
+	HabitService.add = function(habit) {
+
+		// Put habit in json
+		console.log(habit);
+
+	};
+
+	HabitService.getHabit = function(id) {
+
+		habit = habits[id];
+
+		return habit;
+
+	};
+
+	return HabitService;
+
+});
 app.factory('LocationService', function ($q){
 
     var location = null;

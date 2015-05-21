@@ -1,4 +1,4 @@
-var app = angular.module('starter', ['ionic']);
+var app = angular.module('starter', ['ionic', 'ngLodash']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -34,6 +34,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
         controller: 'DashCtrl'
       }
     }
+  })
+
+  .state('tab.habit', {
+    url: '/dashboard/:id',
+    views: {
+        'tab-dash': {
+          templateUrl: 'templates/habit.html',
+          controller: 'HabitCtrl'
+        }
+      }
+    
   })
 
   .state('tab.profile', {
