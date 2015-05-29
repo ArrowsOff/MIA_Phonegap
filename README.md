@@ -8,7 +8,7 @@
 ## UI
 **Materialize.css**: our design pattern is Material Design, so we use materialize to overrule some Ionic styles.
 
-**Color Palette**: fromt he Material Design Color Palette, we are going to work with the colors Indigo and Pink. Bright Pinks stimulate energy and encourage action and confidence. Indigo (purple family) has and uplifting effect.
+**Color Palette**: from the Material Design Color Palette, we are going to work with the colors Indigo and Pink. Bright Pinks stimulate energy and encourage action and confidence. Indigo (purple family) has and uplifting effect.
 
 ## Plugins
 **Pushnotificaties**
