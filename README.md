@@ -3,7 +3,7 @@
 ## Purpose
 
 ## Framework
-_Ionic 1.0.0_. We use Ionic to make use of AngularJS on mobile and the great building tools that come with Ionic-cli
+**Ionic 1.0.0**. We use Ionic to make use of AngularJS on mobile and the great building tools that come with Ionic-cli
 
 ## UI
 _Materialize.css_. Our design pattern is Material Design, so we use materialize to overrule some Ionic styles.
