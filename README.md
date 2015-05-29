@@ -10,6 +10,7 @@
 
 ## Plugins
 **Pushnotificaties**
+
 **Facebook OAuth**. We make use of the Facebook OAuth plugin so we can same habits for every user in a database and make rankings between friends possible.
 
 
