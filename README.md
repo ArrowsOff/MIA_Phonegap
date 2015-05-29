@@ -14,4 +14,4 @@
 
 
 ## Database
-_PouchDB_ PouchDB which saves offline. PouchDB can also sync very easily with a external CouchDB
+**PouchDB** PouchDB which saves offline. PouchDB can also sync very easily with a external CouchDB
