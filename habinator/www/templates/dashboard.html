@@ -1,0 +1,34 @@
+<ion-view view-title="Dashboard" style="background: lightgrey;">
+    <ion-content>
+		<ion-refresher
+    		pulling-text="Pull to refresh..."
+    		on-refresh="refresh()">
+  		</ion-refresher>
+
+        <ion-item ng-repeat="habit in habits track by $index" style="padding: 0; border: 0; background: none">
+            <!-- <a ng-href="#/tab/dashboard/{{habit.index}}">{{habit.name}}</a> -->
+
+            
+            <div class="card waves-effect waves-block waves-light" style="margin: 10px 10px;">
+                <div class="card-content">
+                    <span class="card-title grey-text text-darken-4">{{habit.name}}</span>
+                    <p>I am a very simple card. I am good at containing small bits of information.
+                    I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href='#'>This is a link</a>
+                </div>
+            </div>
+
+        </ion-item>
+    </ion-content>
+
+    <ion-footer-bar align-title="center" class="bar-clear">
+        <div class="fixed-action-btn" style="bottom: 20px; right: 20px;"  ng-click="openModal()">
+            <a class="btn-floating btn-large waves-effect waves-light red">
+                <i class="large mdi-content-add"></i>
+            </a>
+        </div>
+	</ion-footer-bar>
+</ion-view>
