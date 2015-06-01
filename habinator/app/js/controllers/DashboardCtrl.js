@@ -6,6 +6,8 @@ app.controller('DashCtrl', function($scope, $ionicModal, $log, HabitService){
 	};
 
 	$scope.add = function(habit) {
+		$log.debug(habit);
+		$log.debug($scope.modal);
 		HabitService.add(habit, $scope.habits).then(function(){
 			HabitService.get().then(function(data){
 				$scope.habits = data;

@@ -1,8 +1,9 @@
-<ion-view view-title="Your Habits">
+<ion-view view-title="Your Habits" id="habits">
     <ion-content>
 		<ion-refresher
     		pulling-text="Pull to refresh..."
-    		on-refresh="refresh()">
+    		on-refresh="refresh()"
+            pulling-icon="mdi-navigation-expand-less">
   		</ion-refresher>
 
         <ion-item ng-repeat="habit in habits track by $index">

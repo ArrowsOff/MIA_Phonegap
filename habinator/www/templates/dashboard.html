@@ -1,8 +1,9 @@
-<ion-view view-title="Dashboard" style="background: lightgrey;">
+<ion-view view-title="Dashboard" id="dashboard">
     <ion-content>
 		<ion-refresher
     		pulling-text="Pull to refresh..."
-    		on-refresh="refresh()">
+    		on-refresh="refresh()"
+            pulling-icon="mdi-navigation-expand-less">
   		</ion-refresher>
 
         <ion-item ng-repeat="habit in habits track by $index" style="padding: 0; border: 0; background: none">

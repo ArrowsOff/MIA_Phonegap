@@ -1,10 +1,15 @@
 <ion-modal-view>
-    <ion-header-bar class="bar-assertive">
-      	<h1 class="title">Add a new habit</h1>
-      	<div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    <ion-header-bar class="bar-positive" align-title="left">
+      	<div class="buttons">
+    		<button class="button button-clear" ng-click="modal.hide()"><i class="small mdi-navigation-close"></i></button>
+  		</div>
+  		<h1 class="title">Add a habit</h1>
+  		<div class="buttons">
+    		<button class="button button-clear" ng-click="add(habit)"><i class="small mdi-navigation-check"></i></button>
+  		</div>
     </ion-header-bar>
     <ion-content>
-		<form ng-submit="add(habit)">
+		<form>
 			<div class="list">
 				<label class="item item-input">
 					<span class="input-label">Name</span>
@@ -20,10 +25,7 @@
 				<ion-checkbox ng-model="habit.remembering.fri">Friday</ion-checkbox>
 				<ion-checkbox ng-model="habit.remembering.sat">Saturday</ion-checkbox>
 				<ion-checkbox ng-model="habit.remembering.sun">Sunday</ion-checkbox>
-				
 			</div>
-
-			<input type="submit" class="button button-assertive button-block" value="Add {{habit.name}}" />
 		</form>
 
     </ion-content>
