@@ -1,7 +1,8 @@
 # MIA_Phonegap
 
 ## Purpose
-Wat is het doel van de app?
+Changing habits through the 3 R's: Reminder, Routine and Reward with a touch of personality.
+(Source: http://jamesclear.com/three-steps-habit-change)
 
 ## Framework
 **Ionic 1.0.0**: we use Ionic to make use of AngularJS on mobile and the great building tools that come with Ionic-cli
