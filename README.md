@@ -1,8 +1,10 @@
 # MIA_Phonegap
 
 ### Purpose
+---------
 
 ### Framework
+---------
 **Ionic 1.0.0**: we use Ionic to make use of AngularJS on mobile and the great building tools that come with Ionic-cli
 
 ### UI
