@@ -1,4 +1,4 @@
-app.service('HabitService', function(lodash, $q, $http, $localForage) {
+app.service('HabitService', function(lodash, $q, $http, $localForage, $log) {
 
 	var HabitService = this;
 
@@ -7,7 +7,7 @@ app.service('HabitService', function(lodash, $q, $http, $localForage) {
 	function requestHabits() {
 		var defer = $q.defer();
 
-		var keys = $localForage.keys().then(function(res){
+		$localForage.keys().then(function(res){
 			defer.resolve(res);
 		});
 
@@ -75,6 +75,52 @@ app.service('HabitService', function(lodash, $q, $http, $localForage) {
 		return habit;
 
 	};
+
+	HabitService.complete = function(id) {
+		requestHabits().then(function(data) {
+			angular.forEach(data, function(obj) {
+				if(id === obj) {
+					$log.debug(obj);
+
+					$localForage.getItem(obj).then(function(data) {
+						$log.debug(data);
+
+						data.completed = true;
+
+						$log.debug(data);
+
+						$localForage.setItem(data._id, data).then(function() {
+							$log.debug("Completed in database");
+						})
+					})
+				}
+				
+			})
+		})
+	}
+
+	HabitService.failed = function(id) {
+		requestHabits().then(function(data) {
+			angular.forEach(data, function(obj) {
+				if(id === obj) {
+					$log.debug(obj);
+
+					$localForage.getItem(obj).then(function(data) {
+						$log.debug(data);
+
+						data.completed = false;
+
+						$log.debug(data);
+
+						$localForage.setItem(data._id, data).then(function() {
+							$log.debug("Completed false in database");
+						})
+					})
+				}
+				
+			})
+		})
+	}
 
 	function makeId() {
 		function s4() {
