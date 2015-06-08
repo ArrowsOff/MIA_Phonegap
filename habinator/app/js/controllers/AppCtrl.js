@@ -3,6 +3,11 @@ app.controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $ionicModal, 
 		$ionicSideMenuDelegate.toggleRight();
 	};
 
+	$scope.clearForm = function() {
+		$log.debug($scope)
+		$scope.habit = null;
+	}
+
 	$scope.add = function(habit) {
 		$log.debug(habit);
 

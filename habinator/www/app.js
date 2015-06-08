@@ -96,7 +96,151 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
 });
 
-app.service('HabitService', function(lodash, $q, $http, $localForage) {
+app.controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $ionicModal, $log, HabitService) {
+	$scope.showMenu = function () {
+		$ionicSideMenuDelegate.toggleRight();
+	};
+
+	$scope.clearForm = function() {
+		$log.debug($scope)
+		$scope.habit = null;
+	}
+
+	$scope.add = function(habit) {
+		$log.debug(habit);
+
+		HabitService.add(habit, $scope.habits).then(function(){
+			HabitService.get().then(function(data){
+				$scope.habits = data;
+			});
+		});
+
+		$scope.modal.hide();
+	};
+
+	$scope.openModal = function() {
+		$log.info('Opening Habit Modal');
+	    $scope.modal.show();
+	};
+	// Open the Add a Habit modal.
+	$ionicModal.fromTemplateUrl('templates/my-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up',
+	    focusFirstInput: true
+	}).then(function(modal) {
+	    $scope.modal = modal;
+	});
+
+	$scope.clear = function() {
+		HabitService.clear();
+	}
+
+});
+app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
+
+	$scope.remindDate = new Date().getDay();
+
+	$scope.streakcount = 156;
+
+	$scope.completed = function(id) {
+  		// An elaborate, custom popup
+		var myPopup = $ionicPopup.show({
+			title: 'Hooray',
+			subTitle: 'Good job, you\'re staying on track!',
+			buttons: [
+      			// { 
+      			// 	text: 'CANCEL', 
+      			// 	type: 'button-clear accent-color' 
+      			// },
+      			{
+			        text: 'THANKS',
+			        type: 'button-clear accent-color',
+			        onTap: function(e) {
+			        	$log.debug("Task", id, "failed");
+          				// HabitService.complete(id);
+        			}
+      			}
+			]
+  		});
+
+
+		$log.debug("Task", id, "is completed");
+		// HabitService.complete(id);
+	}
+
+	$scope.failed = function(id) {
+		// An elaborate, custom popup
+		var myPopup = $ionicPopup.show({
+			title: 'Too bad',
+			subTitle: 'I\'m sure you will get it next time!',
+			buttons: [
+      			// { 
+      			// 	text: 'CANCEL', 
+      			// 	type: 'button-clear accent-color' 
+      			// },
+      			{
+			        text: 'OK',
+			        type: 'button-clear accent-color',
+			        onTap: function(e) {
+			        	$log.debug("Task", id, "failed");
+          				// HabitService.failed(id);
+        			}
+      			}
+			]
+  		});		
+	}
+
+	$scope.refresh = function() {
+		HabitService.get()
+		.then(function(data){
+			$scope.habits = data;
+		})
+		.finally(function() {
+       		// Stop the ion-refresher from spinning
+       		$scope.$broadcast('scroll.refreshComplete');
+     	});;
+	}
+
+	// Clears the database
+	$scope.reset = function() {
+		HabitService.clear();
+	}
+
+	// Get habits onload
+	HabitService.get().then(function(data){
+  		$scope.habits = data;
+
+  		HabitService.set($scope.habits);
+  	});
+});
+
+app.controller('HabitCtrl', function ($scope, HabitService){
+
+	// Get habits onload
+	HabitService.get().then(function(data){
+  		$scope.habits = data;
+
+  		HabitService.set($scope.habits);
+  	});
+
+});	
+
+app.controller('LoginCtrl', function ($scope){
+
+});
+app.controller('ProfileCtrl', function ($scope){
+
+});	
+
+app.controller('RankingCtrl', function ($scope){
+		
+});
+
+app.controller('SettingsCtrl', function ($scope){
+		
+});
+
+app.service('HabitService', function(lodash, $q, $http, $localForage, $log) {
 
 	var HabitService = this;
 
@@ -105,7 +249,7 @@ app.service('HabitService', function(lodash, $q, $http, $localForage) {
 	function requestHabits() {
 		var defer = $q.defer();
 
-		var keys = $localForage.keys().then(function(res){
+		$localForage.keys().then(function(res){
 			defer.resolve(res);
 		});
 
@@ -174,6 +318,52 @@ app.service('HabitService', function(lodash, $q, $http, $localForage) {
 
 	};
 
+	HabitService.complete = function(id) {
+		requestHabits().then(function(data) {
+			angular.forEach(data, function(obj) {
+				if(id === obj) {
+					$log.debug(obj);
+
+					$localForage.getItem(obj).then(function(data) {
+						$log.debug(data);
+
+						data.completed = true;
+
+						$log.debug(data);
+
+						$localForage.setItem(data._id, data).then(function() {
+							$log.debug("Completed in database");
+						})
+					})
+				}
+				
+			})
+		})
+	}
+
+	HabitService.failed = function(id) {
+		requestHabits().then(function(data) {
+			angular.forEach(data, function(obj) {
+				if(id === obj) {
+					$log.debug(obj);
+
+					$localForage.getItem(obj).then(function(data) {
+						$log.debug(data);
+
+						data.completed = false;
+
+						$log.debug(data);
+
+						$localForage.setItem(data._id, data).then(function() {
+							$log.debug("Completed false in database");
+						})
+					})
+				}
+				
+			})
+		})
+	}
+
 	function makeId() {
 		function s4() {
     		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -183,87 +373,4 @@ app.service('HabitService', function(lodash, $q, $http, $localForage) {
 
 	return HabitService;
 
-});
-app.controller('AppCtrl', function ($scope, $ionicSideMenuDelegate) {
-	$scope.showMenu = function () {
-		$ionicSideMenuDelegate.toggleRight();
-	};
-
-});
-app.controller('DashCtrl', function($scope, $ionicModal, $log, HabitService){
-
-	$scope.openModal = function() {
-		$log.info('Opening Habit Modal');
-	    $scope.modal.show();
-	};
-
-	$scope.add = function(habit) {
-		$log.debug(habit);
-		$log.debug($scope.modal);
-		HabitService.add(habit, $scope.habits).then(function(){
-			HabitService.get().then(function(data){
-				$scope.habits = data;
-			});
-		});
-
-		$scope.modal.hide();
-	};
-
-	$scope.refresh = function() {
-		HabitService.get()
-		.then(function(data){
-			$scope.habits = data;
-		})
-		.finally(function() {
-       		// Stop the ion-refresher from spinning
-       		$scope.$broadcast('scroll.refreshComplete');
-     	});;
-	}
-
-	// Clears the database
-	$scope.reset = function() {
-		HabitService.clear();
-	}
-
-	// Open the Add a Habit modal.
-	$ionicModal.fromTemplateUrl('templates/my-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up',
-	    focusFirstInput: true
-	}).then(function(modal) {
-	    $scope.modal = modal;
-	});
-
-	// Get habits onload
-	HabitService.get().then(function(data){
-  		$scope.habits = data;
-
-  		HabitService.set($scope.habits);
-  	});
-});
-
-app.controller('HabitCtrl', function ($scope, HabitService){
-
-	// Get habits onload
-	HabitService.get().then(function(data){
-  		$scope.habits = data;
-
-  		HabitService.set($scope.habits);
-  	});
-
-});	
-
-app.controller('LoginCtrl', function ($scope){
-
-});
-app.controller('ProfileCtrl', function ($scope){
-
-});	
-
-app.controller('RankingCtrl', function ($scope){
-		
-});
-
-app.controller('SettingsCtrl', function ($scope){
-		
 });

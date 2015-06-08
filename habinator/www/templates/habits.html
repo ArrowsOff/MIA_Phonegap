@@ -5,15 +5,19 @@
     		on-refresh="refresh()"
             pulling-icon="mdi-navigation-expand-less">
   		</ion-refresher>
+		<ion-list show-delete="true" class="list-right-editing">
+			<ion-item ng-repeat="habit in habits track by $index">
+	            {{habit.name}}
 
-        <ion-item ng-repeat="habit in habits track by $index">
-            {{habit.name}}
-        </ion-item>
+	            <ion-delete-button class="icon ion-close-circled"></ion-delete-button>
+
+	        </ion-item>
+		</ion-list>
     </ion-content>
 
     <ion-footer-bar align-title="center" class="bar-clear">
         <div class="fixed-action-btn" style="bottom: 20px; right: 20px;"  ng-click="openModal()">
-            <a class="btn-floating btn-large waves-effect waves-light red">
+            <a class="btn-floating btn-large waves-effect waves-light background-accent-color">
                 <i class="large mdi-content-add"></i>
             </a>
         </div>

@@ -5,29 +5,48 @@
     		on-refresh="refresh()"
             pulling-icon="mdi-navigation-expand-less">
   		</ion-refresher>
-
-        <ion-item ng-repeat="habit in habits track by $index" style="padding: 0; border: 0; background: none">
-            <!-- <a ng-href="#/tab/dashboard/{{habit.index}}">{{habit.name}}</a> -->
-
-            
-            <div class="card waves-effect waves-block waves-light" style="margin: 10px 10px;">
+        <div style="margin-top: 5px;"></div>
+        <!-- <a href="" class="button button-positive" ng-click="reset()">clear db</a> -->
+        <ion-item style="padding: 0; border: 0; background: none" ng-if="!!!habits">
+            <div class="card waves-effect waves-block waves-light" style="margin: 5px 10px 5px 10px;">
                 <div class="card-content">
-                    <span class="card-title grey-text text-darken-4">{{habit.name}}</span>
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
+                    <span class="card-title primary-text roboto-regular" style="white-space: normal">"Add you first habit!"</span>
+                    <div class="lightgrey sub-text padding-bottom">
+                        - Harold
+                    </div>
+
+                    
                 </div>
                 <div class="card-action">
-                    <a href="#">This is a link</a>
-                    <a href='#'>This is a link</a>
+                    <a href="#" class="accent-color" ng-click="openModal()">OK</a>
+                    <a href='#' class="accent-color" ng-click="">Later</a>
+                </div>
+            </div>
+        </ion-item>
+
+        <ion-item ng-repeat="habit in habits track by $index" style="padding: 0; border: 0; background: none" ng-if="!habit.completed">
+            <!-- <a ng-href="#/tab/dashboard/{{habit.index}}">{{habit.name}}</a> -->
+
+            <div class="card waves-effect waves-block waves-light" style="margin: 5px 10px 5px 10px;">
+                <div class="card-content">
+                    <span class="card-title primary-text roboto-regular">{{habit.name}}</span>
+                    
+                    <div class="light-grey sub-text padding-bottom"><span>{{remindDate}}</span> | <span>Your streak count is {{streakcount}} days</span></div>
+                </div>
+                <div class="card-action">
+                    <a href="#" class="accent-color" ng-click="completed(habit._id)">Success</a>
+                    <a href='#' class="accent-color" ng-click="failed(habit._id)">Fail</a>
                 </div>
             </div>
 
         </ion-item>
+
+
     </ion-content>
 
     <ion-footer-bar align-title="center" class="bar-clear">
         <div class="fixed-action-btn" style="bottom: 20px; right: 20px;"  ng-click="openModal()">
-            <a class="btn-floating btn-large waves-effect waves-light red">
+            <a class="btn-floating btn-large waves-effect waves-light background-accent-color">
                 <i class="large mdi-content-add"></i>
             </a>
         </div>
