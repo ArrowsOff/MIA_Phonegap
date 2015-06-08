@@ -1,16 +1,59 @@
-<ion-modal-view>
-    <ion-header-bar class="bar-positive" align-title="left">
-      	<div class="buttons">
-    		<button class="button button-clear" ng-click="modal.hide()"><i class="small mdi-navigation-close"></i></button>
-  		</div>
-  		<h1 class="title">Add a habit</h1>
-  		<div class="buttons">
-    		<button class="button button-clear" ng-click="add(habit)"><i class="small mdi-navigation-check"></i></button>
-  		</div>
-    </ion-header-bar>
+<ion-modal-view id="addModal">
     <ion-content>
+    	<div class="modalHeader">
+		
+			<div class="buttons buttons-left">
+	    		<button class="button button-clear" ng-click="modal.hide()"><i class="tiny mdi-navigation-close"></i></button>
+	  		</div>
+	  		<h1 class="title">Add a habit</h1>
+	  		<div class="buttons buttons-right">
+	    		<button class="button button-clear" ng-click="add(habit)"><i class="tiny mdi-navigation-check"></i></button>
+	  		</div>
+
+		</div>
 		<form>
-			<div class="list">
+
+			<div class="section" style="margin: 0 16px 8px;">
+    			<h5 class="accent-color" style="padding: 0 0 8px;">Habit</h5>
+    			<label style="font-size: 12px;">What do you want to change today?</label>
+    			<div class="input-field">
+		          	<input placeholder="Ik wil.." id="ik_wil" type="text" class="validate" maxlength="50" ng-model="habit.name">
+		          	<div class="sublabel">9/50</div>
+		        </div>
+  			</div>
+  			<div class="divider"></div>
+			<div class="section" style="margin: 0 16px 8px;">
+    			<h5 class="accent-color" style="padding: 0 0 8px;">When would you like Harold to remind you?</h5>
+    			<div class="checkbox" style="display:block;">
+	    			<input type="checkbox" id="monday" style="background-color: black" ng-model="habit.remembering.mon">
+					<label for="monday" class="primary-text" style="padding-left: 40px; font-size: 16px">Monday</label>
+				</div>
+				<div class="checkbox" style="display:block">
+					<input type="checkbox" id="tuesday" ng-model="habit.remembering.tue">
+					<label for="tuesday" class="primary-text" style="padding-left: 40px; font-size: 16px">Tuesday</label>
+				</div>
+				<div class="checkbox" style="display:block">
+					<input type="checkbox" id="wednesday" ng-model="habit.remembering.wed">
+					<label for="wednesday" class="primary-text" style="padding-left: 40px; font-size: 16px">Wednesday</label>
+				</div>
+				<div class="checkbox" style="display:block">
+					<input type="checkbox" id="thursday" ng-model="habit.remembering.thu">
+					<label for="thursday" class="primary-text" style="padding-left: 40px; font-size: 16px">Thursday</label>
+				</div>
+				<div class="checkbox" style="display:block">
+					<input type="checkbox" id="friday" ng-model="habit.remembering.fri">
+					<label for="friday" class="primary-text" style="padding-left: 40px; font-size: 16px">Friday</label>
+				</div>
+				<div class="checkbox" style="display:block">
+					<input type="checkbox" id="saturday" ng-model="habit.remembering.sat">
+					<label for="saturday" class="primary-text" style="padding-left: 40px; font-size: 16px">Saturday</label>
+				</div>
+				<div class="checkbox" style="display:block">
+					<input type="checkbox" id="sunday" ng-model="habit.remembering.sun">
+					<label for="sunday" class="primary-text" style="padding-left: 40px; font-size: 16px">Sunday</label>
+				</div>
+  			</div>
+			<!-- <div class="list">
 				<label class="item item-input">
 					<span class="input-label">Name</span>
 					<input type="text" placeholder="Habit name" ng-model="habit.name">
@@ -25,8 +68,12 @@
 				<ion-checkbox ng-model="habit.remembering.fri">Friday</ion-checkbox>
 				<ion-checkbox ng-model="habit.remembering.sat">Saturday</ion-checkbox>
 				<ion-checkbox ng-model="habit.remembering.sun">Sunday</ion-checkbox>
-			</div>
-		</form>
 
+
+				<input type="checkbox" id="test">
+				<label for="test">test</label>
+		
+			</div> -->
+		</form>
     </ion-content>
 </ion-modal-view>
