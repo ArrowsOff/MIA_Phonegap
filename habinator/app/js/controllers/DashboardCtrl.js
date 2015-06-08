@@ -1,21 +1,18 @@
-app.controller('DashCtrl', function($scope, $ionicModal, $log, HabitService){
+app.controller('DashCtrl', function($scope, $log, HabitService){
 
-	$scope.openModal = function() {
-		$log.info('Opening Habit Modal');
-	    $scope.modal.show();
-	};
+	$scope.remindDate = new Date().getDay();
 
-	$scope.add = function(habit) {
-		$log.debug(habit);
-		$log.debug($scope.modal);
-		HabitService.add(habit, $scope.habits).then(function(){
-			HabitService.get().then(function(data){
-				$scope.habits = data;
-			});
-		});
+	$scope.streakcount = 156;
 
-		$scope.modal.hide();
-	};
+	$scope.completed = function(id) {
+		$log.debug("Task", id, "is completed");
+		HabitService.complete(id);
+	}
+
+	$scope.failed = function(id) {
+		$log.debug("Task", id, "failed");
+		HabitService.failed(id);
+	}
 
 	$scope.refresh = function() {
 		HabitService.get()
@@ -32,15 +29,6 @@ app.controller('DashCtrl', function($scope, $ionicModal, $log, HabitService){
 	$scope.reset = function() {
 		HabitService.clear();
 	}
-
-	// Open the Add a Habit modal.
-	$ionicModal.fromTemplateUrl('templates/my-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up',
-	    focusFirstInput: true
-	}).then(function(modal) {
-	    $scope.modal = modal;
-	});
 
 	// Get habits onload
 	HabitService.get().then(function(data){
