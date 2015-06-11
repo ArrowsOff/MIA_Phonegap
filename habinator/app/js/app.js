@@ -1,17 +1,32 @@
-var app = angular.module('starter', ['ionic', 'ngLodash', 'ngResource', 'LocalForageModule']);
+var app = angular.module('starter', ['ionic', 'ngLodash', 'ngResource', 'LocalForageModule', 'angularMoment']);
 
-app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
-    }
-  });
+app.run(function($rootScope, $ionicPlatform, $log, HabitService) {
+    $ionicPlatform.ready(function() {
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        }
+        if (window.StatusBar) {
+            // org.apache.cordova.statusbar required
+            StatusBar.styleLightContent();
+        }
+
+        // Getting all preloaded habits from database and set them global
+        HabitService.get().then(function(data) {
+            $rootScope.habits = data;
+
+            angular.forEach(data, function(habit) {
+                if(habit.completed.length > 1) {
+                    if(moment().format("MMM Do YY") === habit.completed[habit.completed.length - 1].date) {
+                        if($rootScope.succeeded.indexOf(habit._id) == -1) {
+                            $rootScope.succeeded.push(habit._id);
+                        }
+                    }
+                }       
+            });
+        });
+    });
 });
 
 app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {

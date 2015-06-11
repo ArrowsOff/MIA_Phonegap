@@ -17,7 +17,9 @@ var paths = {
               './app/lib/ng-lodash/build/ng-lodash.js',
               './app/lib/ng-resource/dist/ng-resource.js',
               './app/lib/localforage/dist/localForage.js',
-              './app/lib/angular-localforage/dist/angular-localForage.js'],
+              './app/lib/angular-localforage/dist/angular-localForage.js',
+              './app/lib/moment/moment.js',
+              './app/lib/angular-moment/angular-moment.js'],
   fonts: ['./app/lib/ionic/fonts/**',
           './app/lib/materialize/font/**/*']
 };

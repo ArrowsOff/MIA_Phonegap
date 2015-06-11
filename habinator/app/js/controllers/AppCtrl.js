@@ -3,12 +3,6 @@ app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $
 		$ionicSideMenuDelegate.toggleRight();
 	};
 
-	HabitService.get().then(function(data) {
-        $rootScope.habits = data;
-
-        HabitService.set($rootScope.habits);
-	});
-
 	$scope.add = function(habit) {
 		$log.debug(habit);
 
@@ -21,15 +15,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $
 		});
 
 		$scope.modal.hide();
-	};
-
-	$rootScope.$on('AddedHabit', function() {
-		HabitService.get().then(function(data) {
-	        $rootScope.habits = data;
-
-	        $log.log($rootScope.habits)
-		});
-	});
+	};	
 
 	$scope.refresh = function() {
 		HabitService.get().then(function(data){
@@ -65,5 +51,29 @@ app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $
 	$scope.reset = function() {
 		HabitService.clear();
 	}
+
+	$rootScope.$on('FinishedHabit', function() {
+		$log.log("Finished Habit");
+
+		angular.forEach($rootScope.habits, function(habit) {
+
+			if(habit.completed.length > 1) {
+				if(moment().format("MMM Do YY") === habit.completed[habit.completed.length - 1].date) {
+					if($rootScope.succeeded.indexOf(habit._id) == -1) {
+						$rootScope.succeeded.push(habit._id);
+					}
+				}
+			}
+
+		})
+	})
+
+	$rootScope.$on('AddedHabit', function() {
+		$log.log('Added Habit');
+
+		HabitService.get().then(function(data) {
+	        $rootScope.habits = data;
+		});
+	});
 
 });

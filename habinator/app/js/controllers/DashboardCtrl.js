@@ -1,4 +1,4 @@
-app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
+app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, HabitService){
 
 	var today = function() {
 		var t = new Date().getDay();
@@ -31,23 +31,16 @@ app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
 			title: 'Hooray',
 			subTitle: 'Good job, you\'re staying on track!',
 			buttons: [
-      			// { 
-      			// 	text: 'CANCEL', 
-      			// 	type: 'button-clear accent-color' 
-      			// },
       			{
 			        text: 'THANKS',
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
-			        	$log.debug("Task", id, "failed");
-          				// HabitService.complete(id);
+			        	$log.debug("Task", id, "completed");
+          				HabitService.complete(id)
         			}
       			}
 			]
   		});
-
-		$log.debug("Task", id, "is completed");
-		// HabitService.complete(id);
 	}
 
 	$scope.failed = function(id) {
@@ -67,6 +60,34 @@ app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
 			]
   		});		
 	}
+
+	$rootScope.succeeded = [];
+
+	$scope.isFinished = function(id) {		
+		angular.forEach($rootScope.habits, function(habit) {
+			if(habit._id === id) {
+				if(habit.completed.length > 1) {
+
+					if(moment().format("MMM Do YY") == habit.completed[habit.completed.length - 1].date) {
+						if($rootScope.succeeded.indexOf(habit._id) == -1) {
+							$rootScope.succeeded.push(habit._id);
+						}
+						
+						
+					}
+				}	
+			}			
+		})
+
+		if($rootScope.succeeded.indexOf(id) == -1) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
+	
 
 
 });

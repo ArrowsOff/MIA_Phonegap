@@ -44,10 +44,9 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 		} else {
 			habit.index = 0;
 		}
-		habit.completed = false;
+		habit.completed = [false];
 		habit._id = makeId();
-		habit.dateStart = new Date(); //moment();
-		// // habit.dateEnd = moment();
+		habit.dateStart = new Date();
 
 		 $localForage.setItem(habit._id ,habit).then(function() {
 		 	$rootScope.$broadcast('AddedHabit');
@@ -77,17 +76,16 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 			angular.forEach(data, function(obj) {
 				if(id === obj) {
 					$localForage.getItem(obj).then(function(data) {
-
-						data.completed = true;
+						data.completed.push({ completed: true, date: moment().format("MMM Do YY") });
 
 						$localForage.setItem(data._id, data).then(function() {
+							$rootScope.$broadcast('FinishedHabit');
 							$log.debug("Completed in database");
 						})
 					})
 				}
-				
 			})
-		})
+		});
 	}
 
 	HabitService.failed = function(id) {
@@ -97,9 +95,10 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 					$log.debug(obj);
 
 					$localForage.getItem(obj).then(function(data) {
-						data.completed = false;
+						data.completed.push({ completed: false, date: moment().format("MMM Do YY") });
 
 						$localForage.setItem(data._id, data).then(function() {
+							$rootScope.$broadcast('FinishedHabit');
 							$log.debug("Completed false in database");
 						})
 					})

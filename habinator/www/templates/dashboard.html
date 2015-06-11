@@ -24,7 +24,13 @@
             </div>
         </ion-item>
 
-        <ion-item ng-repeat="habit in habits track by $index" style="padding: 0; border: 0; background: none" ng-if="!habit.completed">
+        {{succeeded}}
+
+        <br>
+        
+
+        <ion-item ng-repeat="habit in habits track by $index" style="padding: 0; border: 0; background: none" 
+        ng-if="isFinished(habit._id)">
             <!-- <a ng-href="#/tab/dashboard/{{habit.index}}">{{habit.name}}</a> -->
 
             <div class="card waves-effect waves-block waves-light" style="margin: 5px 10px 5px 10px;" ng-show="isToday(habit.remembering)">
