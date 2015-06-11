@@ -1,8 +1,29 @@
 app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
 
-	$scope.remindDate = new Date().getDay();
+	var today = function() {
+		var t = new Date().getDay();
 
-	$scope.streakcount = 156;
+		if(t == 1) { return "mon"; } 
+		else if (t == 2) { return "tue";} 
+		else if (t == 3) { return "wed"; } 
+		else if (t == 4) { return "thu";} 
+		else if (t == 5) { return "fri";} 
+		else if (t == 6) { return "sat";} 
+		else { return "sun"; }
+	}
+
+	$scope.isToday = function(dates) {
+		if(!!dates) {
+			if(dates.hasOwnProperty(today())) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	$scope.streakcount = 2;
 
 	$scope.completed = function(id) {
   		// An elaborate, custom popup
@@ -25,7 +46,6 @@ app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
 			]
   		});
 
-
 		$log.debug("Task", id, "is completed");
 		// HabitService.complete(id);
 	}
@@ -36,10 +56,6 @@ app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
 			title: 'Too bad',
 			subTitle: 'I\'m sure you will get it next time!',
 			buttons: [
-      			// { 
-      			// 	text: 'CANCEL', 
-      			// 	type: 'button-clear accent-color' 
-      			// },
       			{
 			        text: 'OK',
 			        type: 'button-clear accent-color',
@@ -52,26 +68,5 @@ app.controller('DashCtrl', function($scope, $log, $ionicPopup, HabitService){
   		});		
 	}
 
-	$scope.refresh = function() {
-		HabitService.get()
-		.then(function(data){
-			$scope.habits = data;
-		})
-		.finally(function() {
-       		// Stop the ion-refresher from spinning
-       		$scope.$broadcast('scroll.refreshComplete');
-     	});;
-	}
 
-	// Clears the database
-	$scope.reset = function() {
-		HabitService.clear();
-	}
-
-	// Get habits onload
-	HabitService.get().then(function(data){
-  		$scope.habits = data;
-
-  		HabitService.set($scope.habits);
-  	});
 });
