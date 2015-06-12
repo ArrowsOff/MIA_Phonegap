@@ -15623,7 +15623,7 @@ ion-view {
 .sub-text {
   font-size: 14px; }
 
-ion-header-bar {
+ion-header-bar, #addModal .modalHeader {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); }
@@ -15668,10 +15668,13 @@ ion-header-bar {
   .popup .popup-sub-title {
     font-size: 16px;
     text-align: left;
-    padding-left: 8px; }
+    padding-left: 8px;
+    color: #727272; }
 
 #habits ion-item {
   background-color: #F9F9F9 !important; }
+  #habits ion-item .item-content {
+    background-color: #F9F9F9 !important; }
 
 #addModal .modalHeader {
   background: #3F51B5;

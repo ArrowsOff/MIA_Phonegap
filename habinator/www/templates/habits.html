@@ -7,9 +7,14 @@
   		</ion-refresher>
 		<ion-list show-delete="true" class="list-right-editing">
 			<ion-item ng-repeat="habit in habits track by $index">
-	            {{habit.name}}
+	            <div>{{habit.name}}</div>
+                <span class="light-grey sub-text" ng-if="habit.streakcount > 0">Your current streakcount is {{habit.streakcount}} day<span ng-if="habit.streakcount > 1">s</span></span>
 
-	            <ion-delete-button class="icon ion-close-circled"></ion-delete-button>
+                <span class="light-grey sub-text" ng-if="habit.streakcount < 1">
+                    Start with a clean slate!
+                </span>
+
+	            <!-- <ion-delete-button class="icon ion-close-circled"></ion-delete-button> -->
 
 	        </ion-item>
 		</ion-list>

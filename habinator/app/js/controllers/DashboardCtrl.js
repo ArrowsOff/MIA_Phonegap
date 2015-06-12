@@ -30,7 +30,7 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	$scope.finished = function(id, status) {
 		var title 		= status=='complete' ? "Hooray" : "Too bad";
 		var subtitle 	= status=='complete' ? "Good job, you\'re staying on track!" : "I\'m sure you will get it next time!";
-		var text		= status=='complete' ? "THANKS" : "OK";
+		var text		= status=='complete' ? "THANKS" : "I WILL";
 
 		var myPopup = $ionicPopup.show({
 			title: title,
@@ -49,14 +49,11 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	}
 
 	$scope.isFinished = function(dates) {
-		if(dates[dates.length-1].date == moment().format('MMM Do YY')) {
-			if(dates[dates.length-1].completed) {
+		if(dates.length > 1) {
+			if(dates[dates.length-1].date == moment().format('MMM Do YY')) {
 				return false;
-			} else {
-				return true;
 			}
 		}
-
 		return true;
 	}
 
