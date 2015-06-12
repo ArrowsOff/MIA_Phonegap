@@ -231,7 +231,32 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	})
 });
 
-app.controller('HabitCtrl', function ($scope, HabitService){
+app.controller('HabitCtrl', function ($scope, $log, $ionicPopup, HabitService){
+	
+	$scope.remove = function(id) {
+		var title 		= "Oh no!";
+		var subtitle 	= "Are you sure you don\'t want to keep track of that habit anymore";
+
+		var myPopup = $ionicPopup.show({
+			title: title,
+			subTitle: subtitle,
+			buttons: [
+				{
+					text: 'CANCEL',
+					type: 'button-clear accent-color'
+				},
+	  			{
+			        text: "DELETE",
+			        type: 'button-clear accent-color',
+			        onTap: function(e) {
+	      				HabitService.destroy(id);
+	    			}
+	  			}
+			]
+		});	
+
+		
+	}
 
 });	
 
@@ -318,6 +343,15 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 
 		return habits[id];
 	};
+
+	HabitService.destroy = function(id) {
+		$log.log(id);
+		$localForage.getItem(id).then(function(data) {
+			$localForage.removeItem(id).then(function(res) {
+				$log.log('Succesfully removed item');
+			})
+		})
+	}
 
 	HabitService.finish = function(id, status) {
 		requestHabits().then(function(data) {

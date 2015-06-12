@@ -67,6 +67,15 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 		return habits[id];
 	};
 
+	HabitService.destroy = function(id) {
+		$log.log(id);
+		$localForage.getItem(id).then(function(data) {
+			$localForage.removeItem(id).then(function(res) {
+				$log.log('Succesfully removed item');
+			})
+		})
+	}
+
 	HabitService.finish = function(id, status) {
 		requestHabits().then(function(data) {
 			angular.forEach(data, function(obj) {

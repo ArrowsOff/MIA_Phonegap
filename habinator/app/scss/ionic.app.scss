@@ -92,18 +92,26 @@ ion-header-bar, #addModal .modalHeader {
 /* Pages
 **************************************/
 #menu {
+	background: #F9F9F9;
 	.mdi-navigation-menu {
 		position: absolute;
 		left: 7px;
 		top: 6px;
 	}
+	#menuList {
+		ion-list:first {
+			margin-top:8px;
+		}
+		ion-item {
+			border: none;
+		}
+	}
+	
 }
 
 #dashboard {
-	background-color: #EEEEEE !important;
-
 	.card {
-		background-color: #F9F9F9;
+		background-color: #FFFFFF;
 		.card-content {
 		  	padding: 20px 20px 10px 20px !important;
 		  	.card-title {
@@ -115,7 +123,7 @@ ion-header-bar, #addModal .modalHeader {
 }
 .popup {
 	width: 80% !important;
-	background-color: #FAFAFA !important;
+	background-color: #FFFFFF !important;
 	-webkit-box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
   	-moz-box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
   	box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
@@ -149,9 +157,7 @@ ion-header-bar, #addModal .modalHeader {
 #habits {
 	ion-item {
 		background-color: #F9F9F9 !important;
-		.item-content {
-			background-color: #F9F9F9 !important;
-		}
+		border-bottom: none;
 	}
 }
 

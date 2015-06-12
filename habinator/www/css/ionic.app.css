@@ -15633,23 +15633,27 @@ ion-header-bar, #addModal .modalHeader {
 
 /* Pages
 **************************************/
-#menu .mdi-navigation-menu {
-  position: absolute;
-  left: 7px;
-  top: 6px; }
+#menu {
+  background: #F9F9F9; }
+  #menu .mdi-navigation-menu {
+    position: absolute;
+    left: 7px;
+    top: 6px; }
+  #menu #menuList ion-list:first {
+    margin-top: 8px; }
+  #menu #menuList ion-item {
+    border: none; }
 
-#dashboard {
-  background-color: #EEEEEE !important; }
-  #dashboard .card {
-    background-color: #F9F9F9; }
-    #dashboard .card .card-content {
-      padding: 20px 20px 10px 20px !important; }
-      #dashboard .card .card-content .card-title {
-        line-height: 28px; }
+#dashboard .card {
+  background-color: #FFFFFF; }
+  #dashboard .card .card-content {
+    padding: 20px 20px 10px 20px !important; }
+    #dashboard .card .card-content .card-title {
+      line-height: 28px; }
 
 .popup {
   width: 80% !important;
-  background-color: #FAFAFA !important;
+  background-color: #FFFFFF !important;
   -webkit-box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
   -moz-box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
   box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
@@ -15672,9 +15676,8 @@ ion-header-bar, #addModal .modalHeader {
     color: #727272; }
 
 #habits ion-item {
-  background-color: #F9F9F9 !important; }
-  #habits ion-item .item-content {
-    background-color: #F9F9F9 !important; }
+  background-color: #F9F9F9 !important;
+  border-bottom: none; }
 
 #addModal .modalHeader {
   background: #3F51B5;

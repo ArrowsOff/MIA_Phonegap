@@ -5,17 +5,16 @@
     		on-refresh="refresh()"
             pulling-icon="mdi-navigation-expand-less">
   		</ion-refresher>
-		<ion-list show-delete="true" class="list-right-editing">
-			<ion-item ng-repeat="habit in habits track by $index">
+		<ion-list>
+			<ion-item ng-repeat="habit in habits track by $index" class="item-icon-right">
+                <i class="icon ion-close-circled accent-color tiny" ng-click="remove(habit._id)"></i>
+
 	            <div>{{habit.name}}</div>
                 <span class="light-grey sub-text" ng-if="habit.streakcount > 0">Your current streakcount is {{habit.streakcount}} day<span ng-if="habit.streakcount > 1">s</span></span>
 
                 <span class="light-grey sub-text" ng-if="habit.streakcount < 1">
                     Start with a clean slate!
                 </span>
-
-	            <!-- <ion-delete-button class="icon ion-close-circled"></ion-delete-button> -->
-
 	        </ion-item>
 		</ion-list>
     </ion-content>
