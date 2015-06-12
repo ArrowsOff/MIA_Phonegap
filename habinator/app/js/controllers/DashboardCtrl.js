@@ -14,6 +14,9 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 
 	$scope.isToday = function(dates) {
 		if(!!dates) {
+
+			$log.log(today());
+			
 			if(dates.hasOwnProperty(today())) {
 				return true;
 			} else {
@@ -54,38 +57,38 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
 			        	$log.debug("Task", id, "failed");
-          				// HabitService.failed(id);
+          				HabitService.failed(id);
         			}
       			}
 			]
   		});		
 	}
 
-	$rootScope.succeeded = [];
+	// $rootScope.succeeded = [];
 
-	$scope.isFinished = function(id) {		
-		angular.forEach($rootScope.habits, function(habit) {
-			if(habit._id === id) {
-				if(habit.completed.length > 1) {
+	// $scope.isFinished = function(id) {		
+	// 	angular.forEach($rootScope.habits, function(habit) {
+	// 		if(habit._id === id) {
+	// 			if(habit.completed.length > 1) {
 
-					if(moment().format("MMM Do YY") == habit.completed[habit.completed.length - 1].date) {
-						if($rootScope.succeeded.indexOf(habit._id) == -1) {
-							$rootScope.succeeded.push(habit._id);
-						}
+	// 				if(moment().format("MMM Do YY") == habit.completed[habit.completed.length - 1].date) {
+	// 					if($rootScope.succeeded.indexOf(habit._id) == -1) {
+	// 						$rootScope.succeeded.push(habit._id);
+	// 					}
 						
 						
-					}
-				}	
-			}			
-		})
+	// 				}
+	// 			}	
+	// 		}			
+	// 	})
 
-		if($rootScope.succeeded.indexOf(id) == -1) {
-			return true;
-		} else {
-			return false;
-		}
+	// 	if($rootScope.succeeded.indexOf(id) == -1) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
 		
-	}
+	// }
 
 	
 

@@ -61,14 +61,9 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 	}
 
 	HabitService.getHabit = function(id) {
-
-		console.log(habits, id)
 		lodash.findLastIndex(habits);
 
-		habit = habits[id];
-
-		return habit;
-
+		return habits[id];
 	};
 
 	HabitService.complete = function(id) {

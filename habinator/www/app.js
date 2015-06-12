@@ -111,6 +111,121 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
 });
 
+app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage, $log) {
+
+	var HabitService = this;
+
+	var habits;
+
+	function requestHabits() {
+		var defer = $q.defer();
+
+		$localForage.keys().then(function(res){
+			defer.resolve(res);
+		});
+
+		return defer.promise;
+	}
+
+	HabitService.set = function(data){
+		habits = data;
+	};
+
+	HabitService.get = function() {
+		var defer = $q.defer();
+
+		$log.log("Getting habits");
+
+		requestHabits().then(function(res) {
+			$localForage.getItem(res).then(function(data) {
+				$log.log(data);
+				habits = data;
+				defer.resolve(habits);
+			})
+		}).catch(function(err) {
+			$log.error(err);
+		})
+
+		return defer.promise;
+	};
+
+	HabitService.add = function(habit) {
+		var defer = $q.defer();
+
+		if (!!habits[0]) {
+			habit.index = $rootScope.habits.length + 1;
+		} else {
+			habit.index = 0;
+		}
+		habit.completed = [false];
+		habit._id = makeId();
+		habit.dateStart = new Date();
+
+		 $localForage.setItem(habit._id ,habit).then(function() {
+		 	$rootScope.$broadcast('AddedHabit');
+		 	defer.resolve('Succesfully added habit to database');
+	    });
+
+		 return defer.promise;
+	};
+
+	HabitService.clear = function() {
+		$localForage.clear();
+	}
+
+	HabitService.getHabit = function(id) {
+		lodash.findLastIndex(habits);
+
+		return habits[id];
+	};
+
+	HabitService.complete = function(id) {
+		requestHabits().then(function(data) {
+			angular.forEach(data, function(obj) {
+				if(id === obj) {
+					$localForage.getItem(obj).then(function(data) {
+						data.completed.push({ completed: true, date: moment().format("MMM Do YY") });
+
+						$localForage.setItem(data._id, data).then(function() {
+							$rootScope.$broadcast('FinishedHabit');
+							$log.debug("Completed in database");
+						})
+					})
+				}
+			})
+		});
+	}
+
+	HabitService.failed = function(id) {
+		requestHabits().then(function(data) {
+			angular.forEach(data, function(obj) {
+				if(id === obj) {
+					$log.debug(obj);
+
+					$localForage.getItem(obj).then(function(data) {
+						data.completed.push({ completed: false, date: moment().format("MMM Do YY") });
+
+						$localForage.setItem(data._id, data).then(function() {
+							$rootScope.$broadcast('FinishedHabit');
+							$log.debug("Completed false in database");
+						})
+					})
+				}
+				
+			})
+		})
+	}
+
+	function makeId() {
+		function s4() {
+    		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  		}
+  		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+	}
+
+	return HabitService;
+
+});
 app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $log, HabitService) {
 	$scope.showMenu = function () {
 		$ionicSideMenuDelegate.toggleRight();
@@ -206,6 +321,9 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 
 	$scope.isToday = function(dates) {
 		if(!!dates) {
+
+			$log.log(today());
+			
 			if(dates.hasOwnProperty(today())) {
 				return true;
 			} else {
@@ -246,38 +364,38 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
 			        	$log.debug("Task", id, "failed");
-          				// HabitService.failed(id);
+          				HabitService.failed(id);
         			}
       			}
 			]
   		});		
 	}
 
-	$rootScope.succeeded = [];
+	// $rootScope.succeeded = [];
 
-	$scope.isFinished = function(id) {		
-		angular.forEach($rootScope.habits, function(habit) {
-			if(habit._id === id) {
-				if(habit.completed.length > 1) {
+	// $scope.isFinished = function(id) {		
+	// 	angular.forEach($rootScope.habits, function(habit) {
+	// 		if(habit._id === id) {
+	// 			if(habit.completed.length > 1) {
 
-					if(moment().format("MMM Do YY") == habit.completed[habit.completed.length - 1].date) {
-						if($rootScope.succeeded.indexOf(habit._id) == -1) {
-							$rootScope.succeeded.push(habit._id);
-						}
+	// 				if(moment().format("MMM Do YY") == habit.completed[habit.completed.length - 1].date) {
+	// 					if($rootScope.succeeded.indexOf(habit._id) == -1) {
+	// 						$rootScope.succeeded.push(habit._id);
+	// 					}
 						
 						
-					}
-				}	
-			}			
-		})
+	// 				}
+	// 			}	
+	// 		}			
+	// 	})
 
-		if($rootScope.succeeded.indexOf(id) == -1) {
-			return true;
-		} else {
-			return false;
-		}
+	// 	if($rootScope.succeeded.indexOf(id) == -1) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
 		
-	}
+	// }
 
 	
 
@@ -301,125 +419,4 @@ app.controller('RankingCtrl', function ($scope){
 
 app.controller('SettingsCtrl', function ($scope){
 		
-});
-
-app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage, $log) {
-
-	var HabitService = this;
-
-	var habits;
-
-	function requestHabits() {
-		var defer = $q.defer();
-
-		$localForage.keys().then(function(res){
-			defer.resolve(res);
-		});
-
-		return defer.promise;
-	}
-
-	HabitService.set = function(data){
-		habits = data;
-	};
-
-	HabitService.get = function() {
-		var defer = $q.defer();
-
-		$log.log("Getting habits");
-
-		requestHabits().then(function(res) {
-			$localForage.getItem(res).then(function(data) {
-				$log.log(data);
-				habits = data;
-				defer.resolve(habits);
-			})
-		}).catch(function(err) {
-			$log.error(err);
-		})
-
-		return defer.promise;
-	};
-
-	HabitService.add = function(habit) {
-		var defer = $q.defer();
-
-		if (!!habits[0]) {
-			habit.index = $rootScope.habits.length + 1;
-		} else {
-			habit.index = 0;
-		}
-		habit.completed = [false];
-		habit._id = makeId();
-		habit.dateStart = new Date();
-
-		 $localForage.setItem(habit._id ,habit).then(function() {
-		 	$rootScope.$broadcast('AddedHabit');
-		 	defer.resolve('Succesfully added habit to database');
-	    });
-
-		 return defer.promise;
-	};
-
-	HabitService.clear = function() {
-		$localForage.clear();
-	}
-
-	HabitService.getHabit = function(id) {
-
-		console.log(habits, id)
-		lodash.findLastIndex(habits);
-
-		habit = habits[id];
-
-		return habit;
-
-	};
-
-	HabitService.complete = function(id) {
-		requestHabits().then(function(data) {
-			angular.forEach(data, function(obj) {
-				if(id === obj) {
-					$localForage.getItem(obj).then(function(data) {
-						data.completed.push({ completed: true, date: moment().format("MMM Do YY") });
-
-						$localForage.setItem(data._id, data).then(function() {
-							$rootScope.$broadcast('FinishedHabit');
-							$log.debug("Completed in database");
-						})
-					})
-				}
-			})
-		});
-	}
-
-	HabitService.failed = function(id) {
-		requestHabits().then(function(data) {
-			angular.forEach(data, function(obj) {
-				if(id === obj) {
-					$log.debug(obj);
-
-					$localForage.getItem(obj).then(function(data) {
-						data.completed.push({ completed: false, date: moment().format("MMM Do YY") });
-
-						$localForage.setItem(data._id, data).then(function() {
-							$rootScope.$broadcast('FinishedHabit');
-							$log.debug("Completed false in database");
-						})
-					})
-				}
-				
-			})
-		})
-	}
-
-	function makeId() {
-		function s4() {
-    		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  		}
-  		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-	}
-
-	return HabitService;
-
 });
