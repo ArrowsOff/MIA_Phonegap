@@ -28,13 +28,13 @@
 
             <div class="card waves-effect waves-block waves-light" style="margin: 5px 10px 5px 10px;" >
                 <div class="card-content">
-                    <span class="card-title primary-text roboto-regular">{{habit.name}}</span>{{habit.remembering}}
+                    <span class="card-title primary-text roboto-regular">{{habit.name}}</span>
                     
-                    <div class="light-grey sub-text padding-bottom"><span>{{remindDate}}</span> | <span>Your streak count is {{streakcount}} days</span></div>
+                    <div class="light-grey sub-text padding-bottom"><span>{{habit.remembering}} {{remindDate}}</span> | <span>Your streak count is {{streakcount}} days</span></div>
                 </div>
                 <div class="card-action">
-                    <a href="#" class="accent-color" ng-click="completed(habit._id)">Success</a>
-                    <a href='#' class="accent-color" ng-click="failed(habit._id)">Fail</a>
+                    <a href="#" class="accent-color" ng-click="finished(habit._id, 'complete')">Success</a>
+                    <a href='#' class="accent-color" ng-click="finished(habit._id, 'fail')">Fail</a>
                 </div>
             </div>
 

@@ -28,40 +28,31 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 
 	$scope.streakcount = 2;
 
-	$scope.completed = function(id) {
-  		// An elaborate, custom popup
+	$scope.finished = function(id, status) {
+
+		var title 		= status=='complete' ? "Hooray" : "Too bad";
+		var subtitle 	= status=='complete' ? "Good job, you\'re staying on track!" : "I\'m sure you will get it next time!";
+		var text		= status=='complete' ? "THANKS" : "OK";
+
 		var myPopup = $ionicPopup.show({
-			title: 'Hooray',
-			subTitle: 'Good job, you\'re staying on track!',
+			title: title,
+			subTitle: subtitle,
 			buttons: [
-      			{
-			        text: 'THANKS',
+	  			{
+			        text: text,
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
-			        	$log.debug("Task", id, "completed");
-          				HabitService.complete(id)
-        			}
-      			}
+			        	$log.log("Task", id, status);
+	      				HabitService.finish(id, status)
+	    			}
+	  			}
 			]
-  		});
+		});		
 	}
 
 	$scope.failed = function(id) {
 		// An elaborate, custom popup
-		var myPopup = $ionicPopup.show({
-			title: 'Too bad',
-			subTitle: 'I\'m sure you will get it next time!',
-			buttons: [
-      			{
-			        text: 'OK',
-			        type: 'button-clear accent-color',
-			        onTap: function(e) {
-			        	$log.debug("Task", id, "failed");
-          				HabitService.failed(id);
-        			}
-      			}
-			]
-  		});		
+				
 	}
 
 	// $rootScope.succeeded = [];

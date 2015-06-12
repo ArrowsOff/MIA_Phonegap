@@ -15,16 +15,6 @@ app.run(function($rootScope, $ionicPlatform, $log, HabitService) {
         // Getting all preloaded habits from database and set them global
         HabitService.get().then(function(data) {
             $rootScope.habits = data;
-
-            angular.forEach(data, function(habit) {
-                if(habit.completed.length > 1) {
-                    if(moment().format("MMM Do YY") === habit.completed[habit.completed.length - 1].date) {
-                        if($rootScope.succeeded.indexOf(habit._id) == -1) {
-                            $rootScope.succeeded.push(habit._id);
-                        }
-                    }
-                }       
-            });
         });
     });
 });
