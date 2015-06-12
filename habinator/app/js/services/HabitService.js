@@ -46,6 +46,7 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 		}
 		habit.completed = [false];
 		habit._id = makeId();
+		habit.streakcount = 0;
 		habit.dateStart = new Date();
 
 		 $localForage.setItem(habit._id ,habit).then(function() {
@@ -72,8 +73,10 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 				if(id === obj) {
 					$localForage.getItem(obj).then(function(data) {
 						if(status == "complete") {
+							data.streakcount++;
 							data.completed.push({ completed: true, date: moment().format("MMM Do YY") });
 						} else {
+							data.streakcount=0;
 							data.completed.push({ completed: false, date: moment().format("MMM Do YY") });
 						}
 						

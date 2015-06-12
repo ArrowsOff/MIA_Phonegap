@@ -12,15 +12,14 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 		else { return "sun"; }
 	}
 
-	$scope.isToday = function(dates) {
-		if(!!dates) {
+	$scope.rememberDay = function() {
+		return moment().format("MMM Do")
+	}
 
-			$log.log(today());
-			
+	$scope.isToday = function(dates) {
+		if(!!dates) {			
 			if(dates.hasOwnProperty(today())) {
 				return true;
-			} else {
-				return false;
 			}
 		}
 		return false;
@@ -29,7 +28,6 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	$scope.streakcount = 2;
 
 	$scope.finished = function(id, status) {
-
 		var title 		= status=='complete' ? "Hooray" : "Too bad";
 		var subtitle 	= status=='complete' ? "Good job, you\'re staying on track!" : "I\'m sure you will get it next time!";
 		var text		= status=='complete' ? "THANKS" : "OK";
@@ -50,38 +48,19 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 		});		
 	}
 
-	$scope.failed = function(id) {
-		// An elaborate, custom popup
-				
+	$scope.isFinished = function(dates) {
+		if(dates[dates.length-1].date == moment().format('MMM Do YY')) {
+			if(dates[dates.length-1].completed) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		return true;
 	}
 
-	// $rootScope.succeeded = [];
-
-	// $scope.isFinished = function(id) {		
-	// 	angular.forEach($rootScope.habits, function(habit) {
-	// 		if(habit._id === id) {
-	// 			if(habit.completed.length > 1) {
-
-	// 				if(moment().format("MMM Do YY") == habit.completed[habit.completed.length - 1].date) {
-	// 					if($rootScope.succeeded.indexOf(habit._id) == -1) {
-	// 						$rootScope.succeeded.push(habit._id);
-	// 					}
-						
-						
-	// 				}
-	// 			}	
-	// 		}			
-	// 	})
-
-	// 	if($rootScope.succeeded.indexOf(id) == -1) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-		
-	// }
-
-	
-
-
+	$rootScope.$on('FinishedHabit', function() {
+		$log.log('Completed habit')
+	})
 });
