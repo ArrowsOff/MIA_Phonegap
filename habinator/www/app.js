@@ -335,7 +335,10 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	}
 
 	$rootScope.$on('FinishedHabit', function() {
-		$log.log('Completed habit')
+		// $log.log('Completed habit')
+		HabitService.get().then(function(data) {
+	        $rootScope.habits = data;
+		});
 	})
 });
 
