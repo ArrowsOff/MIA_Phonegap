@@ -1,80 +1,47 @@
 <ion-view view-title="Settings">
-  	<ion-content>
-      <ion-list>  
+<ion-content>
+
+    <ion-list>  
         <div class="item item-toggle" style="padding: 0;">
-          <div class="section" style="margin: 0 16px 8px;">
-          
-            <h5 class="accent-color" style="padding: 0 0 8px;">Facebook</h5>
-            <label style="font-size: 12px;">Logged in with Facebook</label>
+            <div class="section" style="margin: 0 16px 8px;">
+                <h5 class="accent-color" style="padding: 0 0 8px;">Facebook</h5>
+                <label style="font-size: 12px;">Logged in with Facebook</label>
 
-            <label class="toggle toggle-calm" style="margin-top:16px;">
-                <input type="checkbox">
-                <div class="track">
-                  <div class="handle"></div>
-                </div>
-            </label>
-
-          </div>
+                <label class="toggle toggle-calm" style="margin-top:16px;">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
         </div>
 
         <div class="item item-toggle" style="padding: 0;">
-          <div class="section" style="margin: 0 16px 8px;">
-          
-            <h5 class="accent-color" style="padding: 0 0 8px;">Notifications</h5>
-            <label style="font-size: 12px;">Pushnotifications?</label>
+            <div class="section" style="margin: 0 16px 8px;">
 
-            <label class="toggle toggle-calm" style="margin-top:16px;">
-                <input type="checkbox">
-                <div class="track">
-                  <div class="handle"></div>
-                </div>
-            </label>
+                <h5 class="accent-color" style="padding: 0 0 8px;">Notifications</h5>
+                <label style="font-size: 12px;">Pushnotifications?</label>
 
-          </div>
+                <label class="toggle toggle-calm" style="margin-top:16px;">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
         </div>
 
-        <a href="" class="button button-positive" ng-click="reset()">clear db</a>
-      </ion-list>
+        <div class="item" style="padding: 0;">
+            <div class="section" style="margin: 0 16px 8px;">
 
-    	<!--<ul class="list">
+                <h5 class="accent-color" style="padding: 0 0 8px;">Reset</h5>
+                <label style="font-size: 12px;">Reset all your habits</label>
+                <br><br>
+                <a class="button button-calm z-depth-1" ng-click="reset()">RESET</a>
 
-  			<li class="item item-toggle">
-     			Connected with facebook
-     			<label class="toggle toggle-assertive">
-       				<input type="checkbox">
-       				<div class="track">
-         				<div class="handle"></div>
-       				</div>
-     			</label>
-  			</li>
-			<li class="item item-toggle">
-     			Pushnotifications
-     			<label class="toggle toggle-assertive">
-       				<input type="checkbox">
-       				<div class="track">
-         				<div class="handle"></div>
-       				</div>
-     			</label>
-  			</li>
-  			<li class="item item-toggle">
-     			Silent days
-     			<label class="toggle toggle-assertive">
-       				<input type="checkbox">
-       				<div class="track">
-         				<div class="handle"></div>
-       				</div>
-     			</label>
-  			</li>
-  			<li class="item item-toggle">
-     			Reset
-     			<label class="toggle toggle-assertive">
-       				<input type="checkbox">
-       				<div class="track">
-         				<div class="handle"></div>
-       				</div>
-     			</label>
-  			</li>
+            </div>
+        </div>
+    </ion-list>
 
-		</ul> -->
-  	</ion-content>
+</ion-content>
 </ion-view>

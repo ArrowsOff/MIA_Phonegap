@@ -1,4 +1,4 @@
-var app = angular.module('starter', ['ionic', 'ngLodash', 'ngResource', 'LocalForageModule', 'angularMoment']);
+var app = angular.module('starter', ['ionic', 'ngLodash', 'ngResource', 'LocalForageModule', 'angularMoment', 'ngCordova']);
 
 app.run(function($rootScope, $ionicPlatform, $log, HabitService) {
     $ionicPlatform.ready(function() {
@@ -22,11 +22,9 @@ app.run(function($rootScope, $ionicPlatform, $log, HabitService) {
 app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $ionicConfigProvider.views.maxCache(10);
 
-
   $stateProvider
-
   // setup an abstract state for the tabs directive
-    .state('app', {
+  .state('app', {
     url: "/app",
     abstract: true,
     templateUrl: "templates/menu.html",
@@ -54,17 +52,6 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
       }
     }
   })
-
-  // .state('app.habit', {
-  //   url: '/dashboard/:id',
-  //   views: {
-  //       'menuContent': {
-  //         templateUrl: 'templates/habit.html',
-  //         controller: 'HabitCtrl'
-  //       }
-  //     }
-    
-  // })
 
   .state('app.profile', {
       url: '/profile',
@@ -263,7 +250,17 @@ app.controller('HabitCtrl', function ($scope, $log, $ionicPopup, HabitService){
 app.controller('LoginCtrl', function ($scope){
 
 });
-app.controller('ProfileCtrl', function ($scope){
+app.controller('ProfileCtrl', function ($scope, $log, $cordovaOauth) {
+
+	$scope.login = function() {
+        $cordovaOauth.facebook("902314686547924", ["email", "read_stream", "user_website", "user_location", "user_relationships"]).then(function(result) {
+            window.localStorage.accessToken = result.access_token;
+            alert("Succesfully logged in!");
+        }, function(error) {
+            alert("There was a problem signing in!  See the console for logs");
+            $log.log(error);
+        });
+    };
 
 });	
 

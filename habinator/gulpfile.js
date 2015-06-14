@@ -19,7 +19,8 @@ var paths = {
               './app/lib/localforage/dist/localForage.js',
               './app/lib/angular-localforage/dist/angular-localForage.js',
               './app/lib/moment/moment.js',
-              './app/lib/angular-moment/angular-moment.js'],
+              './app/lib/angular-moment/angular-moment.js',
+              './app/lib/ngCordova/dist/ng-cordova.js'],
   fonts: ['./app/lib/ionic/fonts/**',
           './app/lib/materialize/font/**/*']
 };
