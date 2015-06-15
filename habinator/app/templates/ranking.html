@@ -1,7 +1,7 @@
 <ion-view view-title="Ranking">
   	<ion-content class="padding">
 
-		<div ng-if="isLoggedIn()">
+		<div ng-if="loggedIn">
 			
 			<ion-item>
 				<div class="row">
@@ -30,10 +30,8 @@
 
 		</div>
 
-		<div ng-if="!isLoggedIn()">
-			
-			You need to login to use this feature, <a href="">login here</a>
-			
+		<div ng-if="!loggedIn">
+			You need to login to use this feature, <a href="" ng-click="login()">login here</a>
 		</div>
   	</ion-content>
 </ion-view>

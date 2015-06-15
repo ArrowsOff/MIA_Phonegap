@@ -1,42 +1,36 @@
-<ion-view view-title="Settings">
+<ion-view view-title="Settings" id="settings">
 <ion-content>
 
     <ion-list>  
-        <div class="item item-toggle" style="padding: 0;">
+        <!-- <div class="item item-toggle" style="padding: 0;">
             <div class="section" style="margin: 0 16px 8px;">
-                <h5 class="accent-color" style="padding: 0 0 8px;">Facebook</h5>
+                <h5 class="accent-color title" style="padding: 0 0 8px;">Facebook</h5>
                 <label style="font-size: 12px;">Logged in with Facebook</label>
 
                 <label class="toggle toggle-calm" style="margin-top:16px;">
-                    <input type="checkbox">
+                    <input type="checkbox" ng-model="loggedIn">
                     <div class="track">
                         <div class="handle"></div>
                     </div>
                 </label>
             </div>
-        </div>
+        </div> -->
 
-        <div class="item item-toggle" style="padding: 0;">
+        <div class="item" style="padding: 0;" ng-if="loggedIn">
             <div class="section" style="margin: 0 16px 8px;">
 
-                <h5 class="accent-color" style="padding: 0 0 8px;">Notifications</h5>
-                <label style="font-size: 12px;">Pushnotifications?</label>
+                <h5 class="accent-color title" style="padding: 0 0 8px;">Facebook</h5>
+                <label style="font-size: 16px; color: black; padding: 16px 0 8px 0; display:block;">Do you want to log out?</label>
+                <a class="button button-calm z-depth-1" ng-click="logout()">LOG OUT</a>
 
-                <label class="toggle toggle-calm" style="margin-top:16px;">
-                    <input type="checkbox">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
             </div>
         </div>
 
-        <div class="item" style="padding: 0;">
+        <div class="item" style="padding: 0; border-bottom: 0;">
             <div class="section" style="margin: 0 16px 8px;">
 
-                <h5 class="accent-color" style="padding: 0 0 8px;">Reset</h5>
-                <label style="font-size: 12px;">Reset all your habits</label>
-                <br><br>
+                <h5 class="accent-color title" style="padding: 0 0 8px;">Reset</h5>
+                <label style="font-size: 16px; color: black; padding: 16px 0 8px 0; display:block;">Do you want to reset all your habits?</label>
                 <a class="button button-calm z-depth-1" ng-click="reset()">RESET</a>
 
             </div>

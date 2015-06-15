@@ -76,7 +76,9 @@ ion-view {
 .padding-bottom {
 	padding-bottom: 10px;
 }
-
+.row, .col {
+	padding: 0 !important;
+}
 .sub-text {
 	font-size: 14px;
 }
@@ -137,7 +139,7 @@ ion-header-bar, #addModal .modalHeader {
 	}
 
 	.popup-buttons .button:last-child {
-	  	text-align: right;
+	  	// text-align: right;
 	  	padding-right: 16px;
 	}
 	.popup-title {
@@ -153,9 +155,31 @@ ion-header-bar, #addModal .modalHeader {
 	}
 }
 
-
 #habits {
 	ion-item {
+		background-color: #F9F9F9 !important;
+		border-bottom: none;
+	}
+}
+
+#settings {
+	.title {
+		font-size: 14px;
+	}
+	.item {
+		background-color: #F9F9F9 !important;
+		border-bottom: none;
+	}
+}
+
+#profile {
+	.title {
+		font-size: 14px;
+	}
+	.sub-text {
+		font-size: 14px;
+	}
+	.item {
 		background-color: #F9F9F9 !important;
 		border-bottom: none;
 	}

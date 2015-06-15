@@ -1,56 +1,33 @@
-<ion-view view-title="Profile">
-  	<ion-content class="padding" ng-init="load()">
-
-  		<button class="button button-full button-positive z-depth-1" ng-click="login()">Login with Facebook</button>
-
-		{{profileData}}
-
-		<div ng-if="isLoggedIn()">
-			
-	    	Naam: <br>
-	    	foto: <br>
-
-			streakcount: <br>
-	    	<div class="badges">
-	    		<div class="row">
-	    			
-					<div class="col col-33">
-						badge 1
+<ion-view view-title="Profile" id="profile">
+  	<ion-content ng-init="load()">
+		
+		<div ng-if="loggedIn">
+	  		<div class="item item-avatar" style="padding: 0;">
+	            <div class="section" style="margin: 0 16px 8px;">
+					
+	                <h5 class="accent-color title" style="padding: 0 0 24px;">You</h5>
+					<div class="row">
+						<div class="col col-20">
+							<img ng-src="{{profileData.picture.data.url}}" style="border-radius: 100%;">
+						</div>
+						<div class="col col-80">
+							<h2 style="font-size: 16px;">{{profileData.name}}</h2>
+	      					<p class="sub-text">492 points</p>
+						</div>
 					</div>
-					<div class="col col-33">
-						badge 2
-					</div>
-					<div class="col col-33">
-						badge 3
-					</div>
-
-	    		</div>
-	    		<div class="row">
-	    			
-					<div class="col col-33">
-						badge 4
-					</div>
-					<div class="col col-33">
-						badge 5
-					</div>
-					<div class="col col-33">
-						badge 6
-					</div>
-
-	    		</div>
-	    	</div>
-
-    		<a class="">uitloggen?</a>
-
+	            </div>
+	        </div>
+        </div>
+		
+		<div class="item" style="padding: 0;">
+			<div class="section" style="margin: 0 16px 8px;">	
+	            <h5 class="accent-color title" style="padding: 0 0 24px;">Badges</h5>
+	        </div>
 		</div>
 
-
-		<div ng-if="!isLoggedIn()">
-			
-			If you want to use this feature you have to <a href="" >login</a>
-
+		<div ng-if="!loggedIn">
+			If you want to use this feature you have to <a href="" ng-click="login()">login</a>
 		</div>
-
     	
   	</ion-content>
 </ion-view>

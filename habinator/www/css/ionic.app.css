@@ -15620,6 +15620,9 @@ ion-view {
 .padding-bottom {
   padding-bottom: 10px; }
 
+.row, .col {
+  padding: 0 !important; }
+
 .sub-text {
   font-size: 14px; }
 
@@ -15663,7 +15666,6 @@ ion-header-bar, #addModal .modalHeader {
   .popup .popup-buttons {
     padding-top: 16px; }
   .popup .popup-buttons .button:last-child {
-    text-align: right;
     padding-right: 16px; }
   .popup .popup-title {
     font-size: 20px;
@@ -15676,6 +15678,20 @@ ion-header-bar, #addModal .modalHeader {
     color: #727272; }
 
 #habits ion-item {
+  background-color: #F9F9F9 !important;
+  border-bottom: none; }
+
+#settings .title {
+  font-size: 14px; }
+#settings .item {
+  background-color: #F9F9F9 !important;
+  border-bottom: none; }
+
+#profile .title {
+  font-size: 14px; }
+#profile .sub-text {
+  font-size: 14px; }
+#profile .item {
   background-color: #F9F9F9 !important;
   border-bottom: none; }
 
