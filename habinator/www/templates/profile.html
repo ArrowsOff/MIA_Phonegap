@@ -1,7 +1,9 @@
 <ion-view view-title="Profile">
-  	<ion-content class="padding">
+  	<ion-content class="padding" ng-init="load()">
 
   		<button class="button button-full button-positive z-depth-1" ng-click="login()">Login with Facebook</button>
+
+		{{profileData}}
 
 		<div ng-if="isLoggedIn()">
 			
