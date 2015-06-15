@@ -1,4 +1,4 @@
-app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $log,$cordovaOauth, $ionicPopup, $http, HabitService) {
+app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification, $ionicSideMenuDelegate, $ionicModal, $log,$cordovaOauth, $ionicPopup, $http, HabitService) {
 	$scope.showMenu = function () {
 		$ionicSideMenuDelegate.toggleRight();
 	};
@@ -10,12 +10,25 @@ app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $
 			HabitService.get().then(function(data) {
 		        $rootScope.habits = data;
 
+		        addNotification('Habit added', 'Complete your task today!');
+
 		        HabitService.set($rootScope.habits);
 			});
 		});
 
 		$scope.modal.hide();
 	};	
+
+	function addNotification(title, message) {
+		$cordovaLocalNotification.schedule({
+			id: "12345",
+			date: moment().add(1, 'minutes')._d,
+			message: message,
+			title: title
+		}).then(function() {
+			$log.log("Notification was set");
+		});
+	}
 
 	$scope.refresh = function() {
 		HabitService.get().then(function(data){

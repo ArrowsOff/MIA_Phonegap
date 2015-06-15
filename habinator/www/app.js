@@ -88,7 +88,7 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
 });
 
-app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $log,$cordovaOauth, $ionicPopup, $http, HabitService) {
+app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification, $ionicSideMenuDelegate, $ionicModal, $log,$cordovaOauth, $ionicPopup, $http, HabitService) {
 	$scope.showMenu = function () {
 		$ionicSideMenuDelegate.toggleRight();
 	};
@@ -100,12 +100,30 @@ app.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $
 			HabitService.get().then(function(data) {
 		        $rootScope.habits = data;
 
+		        addNotification();
+
+
 		        HabitService.set($rootScope.habits);
 			});
 		});
 
 		$scope.modal.hide();
 	};	
+
+	function addNotification() {
+		var alarmTime = moment().add(1, 'minutes');
+
+		$log.log(alarmTime._d);
+
+		$cordovaLocalNotification.schedule({
+			id: "12345",
+			date: alarmTime._d,
+			message: "Yo test here",
+			title: "My first notification"
+		}).then(function() {
+			$log.log("Notification was set");
+		});
+	}
 
 	$scope.refresh = function() {
 		HabitService.get().then(function(data){
