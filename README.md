@@ -22,6 +22,8 @@ Changing habits through the 3 R's: Reminder, Routine and Reward with a touch of 
 
 **Withelist**: Whitelist plugin is required to allow connection to Facebook.
 
+**Local Notifications**: https://github.com/katzer/cordova-plugin-local-notifications
+
 
 ## Database
 **LocalForage**: LocalForage is an NoSQL database. We use this so we can use this app to its full potential even when offline. 
