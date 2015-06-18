@@ -20,7 +20,7 @@ Changing habits through the 3 R's: Reminder, Routine and Reward with a touch of 
 
 **InAppBrowser**: InAppBrowser is required for Facebook OAuth.
 
-**Withelist**: Whitelist plugin is required to allow connection to Facebook.
+**Whitelist**: Whitelist plugin is required to allow connection to Facebook.
 
 **Local Notifications**: https://github.com/katzer/cordova-plugin-local-notifications
 
