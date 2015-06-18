@@ -10,7 +10,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 			HabitService.get().then(function(data) {
 		        $rootScope.habits = data;
 
-		        addNotification('Habit added', 'Complete your task today!');
+		        // addNotification('Habit added', 'Complete your task today!');
 
 		        HabitService.set($rootScope.habits);
 			});

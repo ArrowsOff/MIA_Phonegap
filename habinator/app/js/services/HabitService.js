@@ -68,12 +68,15 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 	};
 
 	HabitService.destroy = function(id) {
-		$log.log(id);
+		var defer = $q.defer(); 
+
 		$localForage.getItem(id).then(function(data) {
 			$localForage.removeItem(id).then(function(res) {
-				$log.log('Succesfully removed item');
+				defer.resolve('Succesfully removed item');
 			})
-		})
+		});
+
+		return defer.promise;
 	}
 
 	HabitService.finish = function(id, status) {

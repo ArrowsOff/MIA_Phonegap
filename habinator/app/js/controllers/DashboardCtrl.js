@@ -25,8 +25,6 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 		return false;
 	}
 
-	$scope.streakcount = 2;
-
 	$scope.finished = function(id, status) {
 		var title 		= status=='complete' ? "Hooray" : "Too bad";
 		var subtitle 	= status=='complete' ? "Good job, you\'re staying on track!" : "I\'m sure you will get it next time!";

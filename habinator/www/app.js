@@ -19,6 +19,44 @@ app.run(function($rootScope, $ionicPlatform, $log, HabitService) {
     });
 });
 
+// Setup the filter
+app.filter('dashboardReady', function($log) {
+  // Create the return function and set the required parameter name to **input**
+  return function(habits) {
+    var out = [];
+
+    var today = function() {
+      var t = new Date().getDay();
+
+      if(t == 1) { return "mon"; } 
+      else if (t == 2) { return "tue";} 
+      else if (t == 3) { return "wed"; } 
+      else if (t == 4) { return "thu";} 
+      else if (t == 5) { return "fri";} 
+      else if (t == 6) { return "sat";} 
+      else { return "sun"; }
+    }
+
+    // Using the angular.forEach method, go through the array of data and perform the operation of figuring out if the language is statically or dynamically typed.
+    angular.forEach(habits, function(habit) {
+      var dates = habit.remembering;
+      if(!!dates) {
+        if(dates.hasOwnProperty(today())) {
+          if(habit.completed.length > 1) {
+            if(!habit.completed[habit.completed.length-1].date === moment().format('MMM Do YY')) {
+              out.push(habit);
+            }
+          } else {
+            out.push(habit);
+          }
+        }
+      }
+    });
+
+    return out;
+  }
+});
+
 app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $ionicConfigProvider.views.maxCache(10);
 
@@ -100,8 +138,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 			HabitService.get().then(function(data) {
 		        $rootScope.habits = data;
 
-		        addNotification();
-
+		        // addNotification('Habit added', 'Complete your task today!');
 
 		        HabitService.set($rootScope.habits);
 			});
@@ -110,16 +147,12 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 		$scope.modal.hide();
 	};	
 
-	function addNotification() {
-		var alarmTime = moment().add(1, 'minutes');
-
-		$log.log(alarmTime._d);
-
+	function addNotification(title, message) {
 		$cordovaLocalNotification.schedule({
 			id: "12345",
-			date: alarmTime._d,
-			message: "Yo test here",
-			title: "My first notification"
+			date: moment().add(1, 'minutes')._d,
+			message: message,
+			title: title
 		}).then(function() {
 			$log.log("Notification was set");
 		});
@@ -241,8 +274,6 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 		return false;
 	}
 
-	$scope.streakcount = 2;
-
 	$scope.finished = function(id, status) {
 		var title 		= status=='complete' ? "Hooray" : "Too bad";
 		var subtitle 	= status=='complete' ? "Good job, you\'re staying on track!" : "I\'m sure you will get it next time!";
@@ -281,7 +312,7 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	})
 });
 
-app.controller('HabitCtrl', function ($scope, $log, $ionicPopup, HabitService){
+app.controller('HabitCtrl', function ($scope, $rootScope, $log, $ionicPopup, HabitService){
 	
 	$scope.remove = function(id) {
 		var title 		= "Oh no!";
@@ -299,7 +330,11 @@ app.controller('HabitCtrl', function ($scope, $log, $ionicPopup, HabitService){
 			        text: "DELETE",
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
-	      				HabitService.destroy(id);
+	      				HabitService.destroy(id).then(function() {
+	      					HabitService.get().then(function(data){
+								$rootScope.habits = data;
+							})
+	      				});
 	    			}
 	  			}
 			]
@@ -420,12 +455,15 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 	};
 
 	HabitService.destroy = function(id) {
-		$log.log(id);
+		var defer = $q.defer(); 
+
 		$localForage.getItem(id).then(function(data) {
 			$localForage.removeItem(id).then(function(res) {
-				$log.log('Succesfully removed item');
+				defer.resolve('Succesfully removed item');
 			})
-		})
+		});
+
+		return defer.promise;
 	}
 
 	HabitService.finish = function(id, status) {

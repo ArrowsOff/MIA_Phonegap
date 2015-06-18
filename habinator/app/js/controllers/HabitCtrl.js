@@ -1,4 +1,4 @@
-app.controller('HabitCtrl', function ($scope, $log, $ionicPopup, HabitService){
+app.controller('HabitCtrl', function ($scope, $rootScope, $log, $ionicPopup, HabitService){
 	
 	$scope.remove = function(id) {
 		var title 		= "Oh no!";
@@ -16,7 +16,11 @@ app.controller('HabitCtrl', function ($scope, $log, $ionicPopup, HabitService){
 			        text: "DELETE",
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
-	      				HabitService.destroy(id);
+	      				HabitService.destroy(id).then(function() {
+	      					HabitService.get().then(function(data){
+								$rootScope.habits = data;
+							})
+	      				});
 	    			}
 	  			}
 			]

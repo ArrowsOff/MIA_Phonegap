@@ -19,6 +19,44 @@ app.run(function($rootScope, $ionicPlatform, $log, HabitService) {
     });
 });
 
+// Setup the filter
+app.filter('dashboardReady', function($log) {
+  // Create the return function and set the required parameter name to **input**
+  return function(habits) {
+    var out = [];
+
+    var today = function() {
+      var t = new Date().getDay();
+
+      if(t == 1) { return "mon"; } 
+      else if (t == 2) { return "tue";} 
+      else if (t == 3) { return "wed"; } 
+      else if (t == 4) { return "thu";} 
+      else if (t == 5) { return "fri";} 
+      else if (t == 6) { return "sat";} 
+      else { return "sun"; }
+    }
+
+    // Using the angular.forEach method, go through the array of data and perform the operation of figuring out if the language is statically or dynamically typed.
+    angular.forEach(habits, function(habit) {
+      var dates = habit.remembering;
+      if(!!dates) {
+        if(dates.hasOwnProperty(today())) {
+          if(habit.completed.length > 1) {
+            if(!habit.completed[habit.completed.length-1].date === moment().format('MMM Do YY')) {
+              out.push(habit);
+            }
+          } else {
+            out.push(habit);
+          }
+        }
+      }
+    });
+
+    return out;
+  }
+});
+
 app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $ionicConfigProvider.views.maxCache(10);
 

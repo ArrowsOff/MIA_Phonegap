@@ -17,16 +17,25 @@
 					</div>
 	            </div>
 	        </div>
+	        <div class="item" style="padding: 0;">
+				<div class="section" style="margin: 0 16px 8px;">	
+		            <h5 class="accent-color title" style="padding: 0 0 24px;">Badges</h5>
+		        </div>
+			</div>
         </div>
 		
-		<div class="item" style="padding: 0;">
-			<div class="section" style="margin: 0 16px 8px;">	
-	            <h5 class="accent-color title" style="padding: 0 0 24px;">Badges</h5>
-	        </div>
-		</div>
+		
 
 		<div ng-if="!loggedIn">
-			If you want to use this feature you have to <a href="" ng-click="login()">login</a>
+			<div class="text-center padding" >
+				<img src="img/icon.png" width="33%" style="margin-top: 50px;">
+					
+				<div style="margin: 50px auto 0 auto; width: 80%">
+					<h1 class="title" style="font-size: 16px; margin-bottom: 4px;">No Access</h1>
+					<p class="sub-text" style="font-size: 14px;  line-height: 1.2; margin-bottom: 16px;">You need to login with Facebook to use this feature.</p>
+				</div>
+				<button class="button button-calm z-depth-1" ng-click="login()">LOGIN</button>
+			</div>
 		</div>
     	
   	</ion-content>
