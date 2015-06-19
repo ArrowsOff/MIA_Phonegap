@@ -1,24 +1,23 @@
 <ion-view view-title="Ranking">
-<ion-content>
+<ion-content ng-init="load()">
 
 <div ng-if="loggedIn">
 	<div class="list">
 
-		<a class="item item-avatar" href="#">
+		<a class="item item-avatar" href="#" style="background-color: #F9F9F9;">
 			<img ng-src="{{profileData.picture.data.url}}" style="border-radius: 100%;">
 			<span class="item-title" style="line-height:38px">1. {{profileData.name}}</span>
-			<span class="item-note" style="line-height:38px">492</span>
+			<span class="item-note" style="line-height:38px">{{calculateScore()}}</span>
 		</a>
 
 	</div>
-
 </div>
 
 <div ng-if="!loggedIn">
 	<div class="text-center padding" >
 		<img src="img/icon.png" width="33%" style="margin-top: 50px;">
 
-		<div style="margin: 50px auto 0 auto; width: 80%">
+		<div style="margin: 50px auto 0 auto; width: 70%">
 			<h1 class="title" style="font-size: 16px; margin-bottom: 4px;">No Access</h1>
 			<p class="sub-text" style="font-size: 14px;  line-height: 1.2; margin-bottom: 16px;">You need to login with Facebook to use this feature.</p>
 		</div>

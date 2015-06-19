@@ -38,7 +38,16 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 			        text: text,
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
+			        	var first = false;
 			        	$log.log("Task", id, status);
+			        	angular.forEach($rootScope.habits, function(habit) {
+			        		if(habit.completed.length == 1) {
+			        			if(status == "complete" && id == habit._id) {
+			        				first = true;
+			        				$log.log("THIS IS THE FIRST SUCCESS", habit._id, id)
+			        			}
+			        		}
+			        	})
 	      				HabitService.finish(id, status)
 	    			}
 	  			}

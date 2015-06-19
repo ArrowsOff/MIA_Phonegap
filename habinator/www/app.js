@@ -132,13 +132,14 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 	};
 
 	$scope.add = function(habit) {
-		$log.debug(habit);
-
 		HabitService.add(habit, $scope.habits).then(function() {
 			HabitService.get().then(function(data) {
 		        $rootScope.habits = data;
 
-		        // addNotification('Habit added', 'Complete your task today!');
+		        if(data.length == 1) {
+		        	$log.log('First habit added');
+		        	addNotification('Congratulations', 'You have earned your first badge!');
+		        }
 
 		        HabitService.set($rootScope.habits);
 			});
@@ -150,7 +151,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 	function addNotification(title, message) {
 		$cordovaLocalNotification.schedule({
 			id: "12345",
-			date: moment().add(1, 'minutes')._d,
+			date: moment(),
 			message: message,
 			title: title
 		}).then(function() {
@@ -187,6 +188,11 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 	$rootScope.$on('AddedHabit', function() {
 		$log.log('Added Habit');
 
+		HabitService.get().then(function(data) {
+	        $rootScope.habits = data;
+		});
+	});
+	$rootScope.$on('ClearedDB', function() {
 		HabitService.get().then(function(data) {
 	        $rootScope.habits = data;
 		});
@@ -245,6 +251,26 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 			]
 		});
     }
+    
+    $scope.calculateScore = function() {
+		var counter = 0;
+
+		angular.forEach($rootScope.habits, function(habit) {
+			if(habit.completed.length > 1) {
+				angular.forEach(habit.completed, function(completed) {
+					if(!!completed) {
+						if(completed.completed) {
+							counter = counter + 5;
+						} else {
+							counter = counter - 5;
+						}
+					}
+				});
+			}
+		});
+
+		return counter;
+	}
 
 });
 app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, HabitService){
@@ -287,7 +313,16 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 			        text: text,
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
+			        	var first = false;
 			        	$log.log("Task", id, status);
+			        	angular.forEach($rootScope.habits, function(habit) {
+			        		if(habit.completed.length == 1) {
+			        			if(status == "complete" && id == habit._id) {
+			        				first = true;
+			        				$log.log("THIS IS THE FIRST SUCCESS", habit._id, id)
+			        			}
+			        		}
+			        	})
 	      				HabitService.finish(id, status)
 	    			}
 	  			}
@@ -348,7 +383,7 @@ app.controller('HabitCtrl', function ($scope, $rootScope, $log, $ionicPopup, Hab
 app.controller('LoginCtrl', function ($scope){
 
 });
-app.controller('ProfileCtrl', function($scope) {
+app.controller('ProfileCtrl', function($scope, $rootScope, $log) {
 
 	
 });	
@@ -446,6 +481,7 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 
 	HabitService.clear = function() {
 		$localForage.clear();
+		$rootScope.$broadcast('ClearedDB');
 	}
 
 	HabitService.getHabit = function(id) {

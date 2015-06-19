@@ -4,13 +4,14 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 	};
 
 	$scope.add = function(habit) {
-		$log.debug(habit);
-
 		HabitService.add(habit, $scope.habits).then(function() {
 			HabitService.get().then(function(data) {
 		        $rootScope.habits = data;
 
-		        // addNotification('Habit added', 'Complete your task today!');
+		        if(data.length == 1) {
+		        	$log.log('First habit added');
+		        	addNotification('Congratulations', 'You have earned your first badge!');
+		        }
 
 		        HabitService.set($rootScope.habits);
 			});
@@ -22,7 +23,7 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 	function addNotification(title, message) {
 		$cordovaLocalNotification.schedule({
 			id: "12345",
-			date: moment().add(1, 'minutes')._d,
+			date: moment(),
 			message: message,
 			title: title
 		}).then(function() {
@@ -59,6 +60,11 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 	$rootScope.$on('AddedHabit', function() {
 		$log.log('Added Habit');
 
+		HabitService.get().then(function(data) {
+	        $rootScope.habits = data;
+		});
+	});
+	$rootScope.$on('ClearedDB', function() {
 		HabitService.get().then(function(data) {
 	        $rootScope.habits = data;
 		});
@@ -117,5 +123,25 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 			]
 		});
     }
+    
+    $scope.calculateScore = function() {
+		var counter = 0;
+
+		angular.forEach($rootScope.habits, function(habit) {
+			if(habit.completed.length > 1) {
+				angular.forEach(habit.completed, function(completed) {
+					if(!!completed) {
+						if(completed.completed) {
+							counter = counter + 5;
+						} else {
+							counter = counter - 5;
+						}
+					}
+				});
+			}
+		});
+
+		return counter;
+	}
 
 });

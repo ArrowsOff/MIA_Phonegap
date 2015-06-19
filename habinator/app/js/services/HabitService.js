@@ -59,6 +59,7 @@ app.service('HabitService', function(lodash, $rootScope, $q, $http, $localForage
 
 	HabitService.clear = function() {
 		$localForage.clear();
+		$rootScope.$broadcast('ClearedDB');
 	}
 
 	HabitService.getHabit = function(id) {

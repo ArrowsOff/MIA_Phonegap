@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.habinator497623" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Eva</name>
-  <description>&#xD;
-        Your personal habit assistant.&#xD;
+  <description>&#xD;&#xD;
+        Your personal habit assistant.&#xD;&#xD;
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;
-      Ionic Framework Team&#xD;
+  <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;&#xD;
+      Ionic Framework Team&#xD;&#xD;
     </author>
   <content src="index.html"/>
   <access origin="*"/>

@@ -1,4 +1,4 @@
-app.controller('ProfileCtrl', function($scope) {
+app.controller('ProfileCtrl', function($scope, $rootScope, $log) {
 
 	
 });	
