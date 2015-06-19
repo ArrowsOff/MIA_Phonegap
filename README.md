@@ -16,7 +16,7 @@ Changing habits through the 3 R's: Reminder, Routine and Reward with a touch of 
 
 
 ## Build Process
-**Node**: We used node for our development packages. Development packages like gulp. To use these packages your will have to run 'npm install' in your cli.
+**Node**: We used node for our development packages. Development packages like gulp. To use these packages your will have to run 'npm install' in your cli. This building process generates files to compile into an app. Concatenating and minifying javascript and compiling our SASS into minified CSS.
 <pre><code>npm install</code></pre>
 
 **Bower**: We have used bower for our deployment packages. These can be used by running 'Bower install' in your cli.
