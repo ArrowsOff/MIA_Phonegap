@@ -91,6 +91,10 @@ ion-header-bar, #addModal .modalHeader {
 	padding-left: 24px !important;
 }
 
+.btn-large:hover {
+  	background-color: lighten($accent-color, 1%);
+}
+
 /* Pages
 **************************************/
 #menu {

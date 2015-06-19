@@ -1,7 +1,7 @@
 <ion-view view-title="Profile" id="profile">
   	<ion-content ng-init="load()">
 		
-		<div ng-if="!loggedIn">
+		<div ng-if="loggedIn">
 	  		<div class="item item-avatar" style="padding: 0;">
 	            <div class="section" style="margin: 0 16px 8px;">
 					
@@ -20,11 +20,11 @@
 	        <div class="item" style="padding: 0;">
 				<div class="section" style="margin: 0 16px 8px;">	
 		            <h5 class="accent-color title" style="padding: 0 0 24px;">Badges</h5>
-		            <div class="row text-center">
-		            	<div class="col">
+		            <div class="row text-center row-center">
+		            	<div class="col col-33 padding" ng-if="badges('welcome')">
 		            		<img src="img/badges/welcome_badge.png" width="100%" class="padding">
 		            	</div>
-		            	<div class="col padding">
+		            	<div class="col col-33 padding" ng-if="badges('success')">
 		            		<img src="img/badges/first_succes.png" width="100%" class="padding">
 		            	</div>
 		            </div>
@@ -32,10 +32,8 @@
 			</div>
         </div>
 		
-		
-
-		<div ng-if="loggedIn">
-			<div class="text-center padding" >
+		<div ng-if="!loggedIn">
+			<div class="text-center padding">
 				<img src="img/icon.png" width="33%" style="margin-top: 50px;">
 					
 				<div style="margin: 50px auto 0 auto; width: 70%">

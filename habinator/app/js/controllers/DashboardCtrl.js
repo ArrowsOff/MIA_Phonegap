@@ -40,14 +40,14 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 			        onTap: function(e) {
 			        	var first = false;
 			        	$log.log("Task", id, status);
-			        	angular.forEach($rootScope.habits, function(habit) {
-			        		if(habit.completed.length == 1) {
-			        			if(status == "complete" && id == habit._id) {
-			        				first = true;
-			        				$log.log("THIS IS THE FIRST SUCCESS", habit._id, id)
-			        			}
-			        		}
-			        	})
+			        	// angular.forEach($rootScope.habits, function(habit) {
+			        	// 	if(habit.completed.length == 1) {
+			        	// 		if(status == "complete" && id == habit._id) {
+			        	// 			first = true;
+			        	// 			$log.log("THIS IS THE FIRST SUCCESS", habit._id, id)
+			        	// 		}
+			        	// 	}
+			        	// })
 	      				HabitService.finish(id, status)
 	    			}
 	  			}
@@ -65,7 +65,6 @@ app.controller('DashCtrl', function($scope, $rootScope, $log, $ionicPopup, Habit
 	}
 
 	$rootScope.$on('FinishedHabit', function() {
-		// $log.log('Completed habit')
 		HabitService.get().then(function(data) {
 	        $rootScope.habits = data;
 		});

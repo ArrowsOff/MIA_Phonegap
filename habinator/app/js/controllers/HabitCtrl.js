@@ -17,8 +17,11 @@ app.controller('HabitCtrl', function ($scope, $rootScope, $log, $ionicPopup, Hab
 			        type: 'button-clear accent-color',
 			        onTap: function(e) {
 	      				HabitService.destroy(id).then(function() {
-	      					HabitService.get().then(function(data){
+	      					HabitService.get().then(function(data) {
 								$rootScope.habits = data;
+								// if(data.length == 0) {
+								// 	window.localStorage.firstBadge = undefined;
+								// }
 							})
 	      				});
 	    			}

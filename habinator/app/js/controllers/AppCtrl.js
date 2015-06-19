@@ -9,8 +9,22 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 		        $rootScope.habits = data;
 
 		        if(data.length == 1) {
-		        	$log.log('First habit added');
-		        	addNotification('Congratulations', 'You have earned your first badge!');
+		        	if($scope.loggedIn) {
+						var myPopup = $ionicPopup.show({
+							title: "Congratulations",
+							subTitle: "You have just received your first badge, check your profile to view it!",
+							buttons: [
+					  			{
+							        text: 'AWESOME',
+							        type: 'button-clear accent-color',
+							        onTap: function(e) {
+							        	window.localStorage.firstBadge = true;
+							        }
+					  			}
+							]
+						});
+		        	}
+		        	// addNotification('Congratulations', 'You have earned your first badge!');
 		        }
 
 		        HabitService.set($rootScope.habits);
@@ -18,18 +32,20 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 		});
 
 		$scope.modal.hide();
+		$scope.modal.remove();
 	};	
 
-	function addNotification(title, message) {
-		$cordovaLocalNotification.schedule({
-			id: "12345",
-			date: moment(),
-			message: message,
-			title: title
-		}).then(function() {
-			$log.log("Notification was set");
-		});
-	}
+	// function addNotification(title, message) {
+	// 	$log.log(cordova.plugins.notification.local, window.plugin.notification.local.add)
+	// 	$cordovaLocalNotification.schedule({
+	// 		id: "12345",
+	// 		date: moment(),
+	// 		message: message,
+	// 		title: title
+	// 	}).then(function() {
+	// 		$log.log("Notification was set");
+	// 	});
+	// }
 
 	$scope.refresh = function() {
 		HabitService.get().then(function(data){
@@ -45,25 +61,27 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 
 	$scope.openModal = function() {
 		$log.info('Opening Habit Modal');
-	    $scope.modal.show();
+	    // Open the Add a Habit modal.
+		$ionicModal.fromTemplateUrl('templates/my-modal.html', {
+		    scope: $scope,
+		    animation: 'slide-in-up',
+		    focusFirstInput: true
+		}).then(function(modal) {
+		    $scope.modal = modal;
+		    $scope.modal.show();
+		});
 	};
 
-	// Open the Add a Habit modal.
-	$ionicModal.fromTemplateUrl('templates/my-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up',
-	    focusFirstInput: true
-	}).then(function(modal) {
-	    $scope.modal = modal;
-	});
+	
 
+	// If habit added, refresh scope
 	$rootScope.$on('AddedHabit', function() {
-		$log.log('Added Habit');
-
 		HabitService.get().then(function(data) {
 	        $rootScope.habits = data;
 		});
 	});
+
+	// If database is cleared, refresh scope
 	$rootScope.$on('ClearedDB', function() {
 		HabitService.get().then(function(data) {
 	        $rootScope.habits = data;
@@ -134,7 +152,11 @@ app.controller('AppCtrl', function($scope, $rootScope, $cordovaLocalNotification
 						if(completed.completed) {
 							counter = counter + 5;
 						} else {
-							counter = counter - 5;
+							if(!counter < 5) {
+								counter = counter - 5;	
+							} else {
+								counter = 0;
+							}							
 						}
 					}
 				});

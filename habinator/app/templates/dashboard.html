@@ -1,4 +1,4 @@
-<ion-view view-title="Dashboard" id="dashboard" ng-init="init();">
+<ion-view view-title="Dashboard" id="dashboard" ng-init="load();">
     <ion-content>
 		<ion-refresher
     		pulling-text="Pull to refresh..."
@@ -6,6 +6,8 @@
             pulling-icon="mdi-navigation-expand-less">
   		</ion-refresher>
         <div style="margin-top: 5px;"></div>
+
+        {{$parent.habit.name}}
 
         <ion-item ng-repeat="habit in habits | dashboardReady as results track by $index" style="padding: 0; border: 0; background: none" ng-show="results.length > 0">
 
