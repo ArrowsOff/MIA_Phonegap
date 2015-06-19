@@ -35,7 +35,7 @@ Changing habits through the 3 R's: Reminder, Routine and Reward with a touch of 
 **Whitelist**: Whitelist plugin is required to allow connection to Facebook.
 <pre><code>ionic plugin add cordova-plugin-whitelist</code></pre>
 
-**Local Notifications**: 
+**Local Notifications**: We intented to use local notifcations, although there seems to be a bug with the notifications on Cordova 5.0.0. This causes the build to fail. There is no working solution for this yet so we decided to replace this functionallity with Popups.
 <pre><code>ionic plugin add https://github.com/katzer/cordova-plugin-local-notifications</code></pre>
 
 
